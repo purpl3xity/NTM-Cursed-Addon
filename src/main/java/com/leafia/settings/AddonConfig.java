@@ -6,6 +6,7 @@ public class AddonConfig {
     public static int dfcComponentRange = 50;
 	public static boolean enableFirestorm = false;
 	public static boolean enableWackySplashes = true;
+	public static boolean enableAcidRainRender = true;
 	static {
 		loadFromConfig();
 	}
@@ -17,6 +18,7 @@ public class AddonConfig {
 		builder._category("ASM");
 		{
 			enableWackySplashes = builder._boolean("enableWackySplashes",true);
+			enableAcidRainRender = builder._boolean("enableAcidRainRender",true);
 		}
 		builder._separator();
 		builder._category("GENERAL");

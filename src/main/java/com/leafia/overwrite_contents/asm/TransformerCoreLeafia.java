@@ -74,7 +74,7 @@ public class TransformerCoreLeafia implements IClassTransformer {
 			"<REMOVED>",
 			"net.minecraft.client.gui.GuiMainMenu",
 			"net.minecraft.client.renderer.EntityRenderer",
-			"net.minecraftforge.fluids.FluidTank",
+			"<REMOVED>",//"net.minecraftforge.fluids.FluidTank",
 			"net.minecraft.world.ServerWorldEventHandler",
 			"<REMOVED>",//"com.hbm.inventory.fluid.tank.FluidTankNTM"
 			"net.minecraft.item.ItemStack",
@@ -93,6 +93,7 @@ public class TransformerCoreLeafia implements IClassTransformer {
 		int index = Arrays.asList(classesBeingTransformed).indexOf(transformedName);
 		switch(index) {
 			case 2 -> { if (!AddonConfig.enableWackySplashes) index = -1; }
+			case 3 -> { if (!AddonConfig.enableAcidRainRender) index = -1; }
 		}
 		//return /*index != -1 ? */transform(index, classBeingTransformed, isObfuscated);// : classBeingTransformed;
 		return index != -1 ? transform(index, classBeingTransformed, isObfuscated) : classBeingTransformed;

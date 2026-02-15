@@ -277,9 +277,6 @@ public class LeafiaClientListener {
 				RayTraceResult mop = mc.objectMouseOver;
 
 				if (mop != null && mop.typeOfHit == mop.typeOfHit.BLOCK) {
-					if (world.getBlockState(mop.getBlockPos()).getBlock() instanceof ILookOverlay) {
-						((ILookOverlay) world.getBlockState(mop.getBlockPos()).getBlock()).printHook(event,world,mop.getBlockPos().getX(),mop.getBlockPos().getY(),mop.getBlockPos().getZ());
-					}
 					if (mc.player.getHeldItemOffhand().getItem() == AddonItems.wand_v) {
 						Chunk chunk = world.getChunk(mop.getBlockPos());
 						TileEntity entity = chunk.getTileEntity(mop.getBlockPos(),Chunk.EnumCreateEntityType.CHECK);
