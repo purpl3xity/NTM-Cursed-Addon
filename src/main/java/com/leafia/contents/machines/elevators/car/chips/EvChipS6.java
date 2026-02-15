@@ -77,11 +77,11 @@ public class EvChipS6 extends EvChipBase {
 				entity.getDataManager().set(ElevatorEntity.DOOR_OUT,(float)ease.get(doorLevelOut));
 				cooldown = 3*20;
 			}
-			if (pingpongTimer < 5) {
+			if (pingpongTimer < 6) {
 				if (pingpongTimer == 0)
 					entity.world.playSound(null,entity.posX,entity.posY,entity.posZ,LeafiaSoundEvents.electronicpingshort,SoundCategory.BLOCKS,0.35f,1.7f);
 				pingpongTimer++;
-				if (entity.down && pingpongTimer == 5)
+				if (entity.down && pingpongTimer == 6)
 					entity.world.playSound(null,entity.posX,entity.posY,entity.posZ,LeafiaSoundEvents.electronicpingshort,SoundCategory.BLOCKS,0.35f,1.45f);
 			}
 		}

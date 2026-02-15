@@ -8,6 +8,7 @@ import com.hbm.items.IDynamicModels;
 import com.hbm.items.tool.ItemTooling;
 import com.hbm.lib.ForgeDirection;
 import com.leafia.contents.machines.elevators.floors.model.EvFloorBakedModel;
+import com.leafia.dev.LeafiaDebug;
 import com.leafia.dev.blocks.blockbase.AddonBlockDummyable;
 import com.leafia.dev.math.FiaBB;
 import com.leafia.dev.math.FiaMatrix;
@@ -109,6 +110,25 @@ public class EvFloor extends AddonBlockDummyable implements IDynamicModels {
 					world.notifyBlockUpdate(pos,state,state,3);
 					return true;
 				}
+			}
+		} else {
+			IBlockState coreState = world.getBlockState(new BlockPos(core[0],core[1],core[2]));
+			FiaMatrix rot = getMatrix(getMetaFromState(coreState));
+			FiaMatrix mat = new FiaMatrix(new Vec3d(core[0]+0.5,core[1],core[2]+0.5)).rotateAlong(rot);
+			FiaMatrix clicked = new FiaMatrix(new Vec3d(pos.getX()+hitX,pos.getY()+hitY,pos.getZ()+hitZ));
+			FiaMatrix rel = mat.toObjectSpace(clicked);
+			//LeafiaDebug.debugMat(world,mat,1,0x00FF00,"mat");
+			//LeafiaDebug.debugMat(world,clicked,1,0x00FF00,"clicked");
+			//LeafiaDebug.debugLog(world,rel.position);
+			double x = rel.position.x;
+			double y = rel.position.y;
+			float staticX = 0.125f*5;
+			float staticY = 0.125f*8;
+			if (x >= staticX && x <= staticX+1/16d && y >= staticY && y <= staticY+1/16d) {
+				if (!world.isRemote) {
+
+				}
+				return true;
 			}
 		}
 		return false;

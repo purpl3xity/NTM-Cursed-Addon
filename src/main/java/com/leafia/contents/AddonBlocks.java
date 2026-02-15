@@ -25,6 +25,7 @@ import com.leafia.contents.machines.elevators.EvBuffer;
 import com.leafia.contents.machines.elevators.EvPulley;
 import com.leafia.contents.machines.elevators.EvShaft;
 import com.leafia.contents.machines.elevators.EvShaftNeo;
+import com.leafia.contents.machines.elevators.car.ElevatorLight;
 import com.leafia.contents.machines.elevators.floors.EvFloor;
 import com.leafia.contents.machines.misc.heatex.CoolantHeatexBlock;
 import com.leafia.contents.machines.panel.controltorch.ControlTorchBlock;
@@ -324,10 +325,12 @@ public class AddonBlocks {
 		static boolean dummy = false;
 		public static final int guiIdFloor = 365;
 		public static final int guiIdCabin = 366;
-		public static final Block pulley = new EvPulley(Material.IRON,"elevator_pulley");
-		public static final Block shaft = new EvShaftNeo(Material.IRON,"elevator_shaft");
-		public static final Block buffer = new EvBuffer(Material.IRON,"elevator_buffer");
-		public static final Block s6_floor = new EvFloor(Material.IRON,"elevator_s6floor");
+		public static final Block pulley = new EvPulley(Material.IRON,"elevator_pulley").setHardness(15);
+		public static final Block shaft = new EvShaftNeo(Material.IRON,"elevator_shaft").setHardness(15);
+		public static final Block buffer = new EvBuffer(Material.IRON,"elevator_buffer").setHardness(15);
+		public static final Block s6_floor = new EvFloor(Material.IRON,"elevator_s6floor").setHardness(15);
+
+		public static final Block light = new ElevatorLight(Material.AIR,"elevator_light").setCreativeTab(null);
 	}
 
 	static {

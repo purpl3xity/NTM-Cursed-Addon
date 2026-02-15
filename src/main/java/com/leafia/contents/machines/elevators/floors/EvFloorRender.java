@@ -2,6 +2,7 @@ package com.leafia.contents.machines.elevators.floors;
 
 import com.hbm.render.loader.WaveFrontObjectVAO;
 import com.leafia.contents.machines.elevators.car.ElevatorRender.S6;
+import com.leafia.dev.LeafiaBrush;
 import com.leafia.transformer.LeafiaGls;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import org.lwjgl.opengl.GL11;
@@ -35,6 +36,19 @@ public class EvFloorRender extends TileEntitySpecialRenderer<EvFloorTE> {
 		LeafiaGls.translate(0.440625f*door,0,0);
 		mdl.renderPart("DoorR");
 		LeafiaGls.popMatrix();
+
+		bindTexture(S6.buttonOff);
+		LeafiaBrush brush = LeafiaBrush.instance;
+		float staticX = 0.125f*5;
+		float staticY = 0.125f*8;
+		float staticZ = 0.501f;
+		brush.startDrawingQuads();
+		brush.addVertexWithUV(staticX+0.15/16d,staticY+0.15/16d,staticZ,0,1);
+		brush.addVertexWithUV(staticX+0.85/16d,staticY+0.15/16d,staticZ,1,1);
+		brush.addVertexWithUV(staticX+0.85/16d,staticY+0.85/16d,staticZ,1,0);
+		brush.addVertexWithUV(staticX+0.15/16d,staticY+0.85/16d,staticZ,0,0);
+		brush.draw();
+
 		LeafiaGls.popMatrix();
 	}
 }

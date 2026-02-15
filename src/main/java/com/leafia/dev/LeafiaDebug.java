@@ -12,6 +12,7 @@ import com.leafia.dev.LeafiaDebug.Tracker.LeafiaTrackerPacket;
 import com.leafia.dev.container_utility.LeafiaPacket;
 import com.leafia.dev.custompacket.LeafiaCustomPacket;
 import com.leafia.dev.custompacket.LeafiaCustomPacketEncoder;
+import com.leafia.dev.math.FiaMatrix;
 import com.leafia.dev.optimization.bitbyte.LeafiaBuf;
 import com.leafia.dev.optimization.diagnosis.RecordablePacket;
 import com.leafia.passive.rendering.TopRender.Highlight;
@@ -59,6 +60,19 @@ public class LeafiaDebug {
 			if (plr.getHeldItem(EnumHand.OFF_HAND).getItem() == AddonItems.wand_v || plr.getHeldItem(EnumHand.MAIN_HAND).getItem() == AddonItems.wand_v) {
 				plr.sendMessage(component);
 			}
+		}
+	}
+	public static void debugMat(World world,FiaMatrix mat,float duration,int color,String... message) {
+		if (world.isRemote) {
+			Highlight highlight = new Highlight();
+			Vec3d size = new Vec3d(0.125,0.125,0.125);
+			highlight.setArea(mat.position.subtract(size),mat.position.add(size));
+			highlight.ray = mat.frontVector;
+			highlight.textSize /= 4;
+			highlight.label = message;
+			highlight.lifetime = duration;
+			highlight.setColor(color);
+			highlight.show();
 		}
 	}
 	public static void debugPos(World world,BlockPos pos,float duration,int color,String... message) {

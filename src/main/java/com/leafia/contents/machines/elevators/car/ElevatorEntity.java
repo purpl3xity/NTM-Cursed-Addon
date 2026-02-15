@@ -84,6 +84,7 @@ public class ElevatorEntity extends Entity implements IEntityMultiPart, IEntityC
 		}
 		return false;
 	}
+	public BlockPos lastLight = new BlockPos(0,0,0);
 	public boolean doorOpen = false;
 	public boolean down = false;
 	public LeafiaSet<Integer> targetFloors = new LeafiaSet<>();
@@ -994,6 +995,10 @@ public class ElevatorEntity extends Entity implements IEntityMultiPart, IEntityC
 	}
 	@Override
 	public void onUpdate() {
+		if (world.getBlockState(lastLight).getBlock() instanceof ElevatorLight)
+			world.setBlockToAir(lastLight);
+		lastLight = new BlockPos(posX,posY+1.5,posZ);
+		world.setBlockState(lastLight,Elevators.light.getDefaultState());
 		super.onUpdate();
 		if (!world.isRemote) {
 			if (loadData != null)

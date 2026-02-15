@@ -3,6 +3,7 @@ package com.leafia.jei;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemPWRFuel.EnumPWRFuel;
+import com.leafia.contents.AddonBlocks.Elevators;
 import com.leafia.contents.AddonItems;
 import com.leafia.contents.AddonItems.LeafiaRods;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
@@ -29,5 +30,6 @@ public class _JEIBlacklist {
 		blacklist.addIngredientToBlacklist(new ItemStack(ModBlocks.pwr_heatsink));
 		blacklist.addIngredientToBlacklist(new ItemStack(AddonItems.billet_kys));
 		blacklist.addIngredientToBlacklist(new ItemStack(LeafiaRods.leafRodKys));
+		blacklist.addIngredientToBlacklist(new ItemStack(Elevators.light));
 	}
 }
