@@ -70,7 +70,7 @@ public class MSRPlugTE extends MSRTEBase implements IFluidHandler, IFFReceiver, 
 		if (compatible && ntmf.hasTrait(FT_LFTRCoolant.class)) {
 			if (doFill) {
 				if (tank.getFluid() != null) {
-					transferStats(resource,tank.getFluid(),1);
+					transferStats(resource,tank.getFluid(),tank.fill(new FluidStack(tank.getFluid(),resource.amount),false));
 					return tank.fill(new FluidStack(tank.getFluid(),resource.amount),doFill);
 				} else
 					return tank.fill(resource,doFill);

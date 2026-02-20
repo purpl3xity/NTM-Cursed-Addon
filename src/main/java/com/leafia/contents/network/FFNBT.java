@@ -49,7 +49,7 @@ public class FFNBT {
 		FluidType ntmf = AddonFluids.fromFF(sending.getFluid().getFluid());
 		if (!ntmf.equals(Fluids.NONE)) {
 			if (ntmf.hasTrait(FT_LFTRCoolant.class))
-				MSRTEBase.transferStats(sending.getFluid(),receiving.getFluid(),1);
+				MSRTEBase.transferStats(sending.getFluid(),receiving.getFluid(),sending.getFluidAmount());
 		}
 		receiving.getFluid().tag = receivingTag;
 	}
