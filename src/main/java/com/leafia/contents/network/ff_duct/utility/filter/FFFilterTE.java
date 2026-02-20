@@ -101,9 +101,9 @@ public class FFFilterTE extends FFDuctUtilityTEBase implements ITickable, IFluid
 									outMix.put(entry.getKey(),entry.getValue()/stack.amount);
 								}
 								MSRTEBase.writeMixture(mixture,tag0);
-								MSRTEBase.writeMixture(mixture,tag1);
+								MSRTEBase.writeMixture(outMix,tag1);
 								FluidStack senderFluid = new FluidStack(getType().getFF(),(int) ((total-mix*stack.amount)*ratio),tag0);
-								FluidStack outputFluid = new FluidStack(getType().getFF(),(int) (mix*stack.amount*ratio));
+								FluidStack outputFluid = new FluidStack(getType().getFF(),(int) (mix*stack.amount*ratio),tag1);
 
 								FluidTank sending = prov.getSendingTank(stack);
 								sending.setFluid(senderFluid);
