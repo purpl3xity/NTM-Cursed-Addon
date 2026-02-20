@@ -358,11 +358,6 @@ public class MixingVatTE extends LCETileEntityMachineBase implements LeafiaPacke
 	}
 
 	@Override
-	public FluidTank getSendingTank(FluidStack stack) {
-		return tankNc1;
-	}
-
-	@Override
 	public FluidTank getCorrespondingTank(FluidStack stack) {
 		return tankNc0;
 	}

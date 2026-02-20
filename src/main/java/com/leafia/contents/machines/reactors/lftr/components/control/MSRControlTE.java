@@ -30,7 +30,7 @@ public class MSRControlTE extends TileEntity implements ITickable, LeafiaPacketR
 
 	@Override
 	public String getPacketIdentifier() {
-		return "LFTR_CTRL";
+		return "MSRControl";
 	}
 
 	public EnumFacing getDirection() {

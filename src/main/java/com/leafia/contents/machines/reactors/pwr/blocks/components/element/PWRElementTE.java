@@ -869,7 +869,7 @@ public class PWRElementTE extends TileEntityInventoryBase implements PWRComponen
 
 	@Override
 	public String getPacketIdentifier() {
-		return "PWR_FUEL";
+		return "PWR_ELEMENT";
 	}
 	public LeafiaPacket generateSyncPacket() {
 		NBTTagCompound nbt = writeToNBT(new NBTTagCompound());

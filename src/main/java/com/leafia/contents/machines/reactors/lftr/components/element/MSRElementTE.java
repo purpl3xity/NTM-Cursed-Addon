@@ -331,7 +331,7 @@ public class MSRElementTE extends MSRTEBase {
 
 	@Override
 	public String getPacketIdentifier() {
-		return "LFTR_FUEL";
+		return "MSRElement";
 	}
 	public BlockPos control = null;
 	public double restriction = 0;

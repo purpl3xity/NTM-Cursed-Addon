@@ -564,9 +564,4 @@ public class CoolantHeatexTE extends TileEntityMachineBase implements ITickable,
 		//	return ff_inputB;
 		return null;
 	}
-
-	@Override
-	public FluidTank getSendingTank(FluidStack stack) {
-		return ff_outputA;
-	}
 }

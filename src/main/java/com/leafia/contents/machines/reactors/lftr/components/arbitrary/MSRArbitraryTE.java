@@ -27,7 +27,7 @@ public class MSRArbitraryTE extends MSRTEBase {
 	}
 	@Override
 	public String getPacketIdentifier() {
-		return "LFTR_ARB";
+		return "MSRArbitrary";
 	}
 	public LeafiaPacket generateSyncPacket() {
 		return LeafiaPacket._start(this).__write((byte)0,writeToNBT(new NBTTagCompound()));

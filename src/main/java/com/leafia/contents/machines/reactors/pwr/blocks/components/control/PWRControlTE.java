@@ -213,7 +213,7 @@ public class PWRControlTE extends PWRAssignableEntity implements ITickable, ICon
 	}
 	@Override
 	public String getPacketIdentifier() {
-		return "PWR_CTRL";
+		return "PWR_CONTROL";
 	}
 	@SideOnly(Side.CLIENT)
 	@Override

@@ -412,11 +412,6 @@ public class SaltSeparatorTE extends TileEntityMachineBase implements ITickable,
 	}
 
 	@Override
-	public FluidTank getSendingTank(FluidStack stack) {
-		return bufferOut;
-	}
-
-	@Override
 	public FluidTank getCorrespondingTank(FluidStack stack) {
 		return bufferIn;
 	}
