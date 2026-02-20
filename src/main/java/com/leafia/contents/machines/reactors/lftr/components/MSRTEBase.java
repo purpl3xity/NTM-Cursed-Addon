@@ -115,18 +115,17 @@ public abstract class MSRTEBase extends TileEntity implements ITickable, LeafiaP
 			}
 		}*/
 		Map<String,Double> mixture2 = new LeafiaMap<>();
-		int sum = stack0.amount+stack1.amount;
 		if (stack0.amount > 0) {
 			for (Entry<String,Double> entry : mixture0.entrySet()) {
 				double amount = 0;
-				amount += entry.getValue()*stack0.amount/sum;
+				amount += entry.getValue()*stack0.amount;
 				mixture2.put(entry.getKey(),amount);
 			}
 		}
 		if (stack1.amount > 0) {
 			for (Entry<String,Double> entry : mixture1.entrySet()) {
 				double amount = mixture2.getOrDefault(entry.getKey(),0d);
-				amount += entry.getValue()*stack1.amount/sum;
+				amount += entry.getValue()*stack1.amount;
 				mixture2.put(entry.getKey(),amount);
 			}
 		}
