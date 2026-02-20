@@ -11,6 +11,7 @@ import com.leafia.contents.network.ff_duct.uninos.IFFProvider;
 import com.leafia.contents.network.ff_duct.uninos.IFFReceiver;
 import com.leafia.contents.network.ff_duct.utility.FFDuctUtilityBase;
 import com.leafia.contents.network.ff_duct.utility.FFDuctUtilityTEBase;
+import com.leafia.dev.LeafiaDebug;
 import com.leafia.dev.container_utility.LeafiaPacket;
 import com.llib.exceptions.LeafiaDevFlaw;
 import com.llib.group.LeafiaMap;
@@ -32,6 +33,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class FFFilterTE extends FFDuctUtilityTEBase implements ITickable, IFluidHandler, IFFProvider {
 	FluidTank tank = new FluidTank(10000);
@@ -73,35 +75,39 @@ public class FFFilterTE extends FFDuctUtilityTEBase implements ITickable, IFluid
 						if (stack.tag != null) {
 							NBTTagCompound tag = MSRTEBase.nbtProtocol(stack.tag);
 							Map<String,Double> mixture = MSRTEBase.readMixture(tag);
-							double mix = mixture.getOrDefault(filter.name(),0d);
-							double mixTotal = 0;
-							for (Double value : mixture.values())
-								mixTotal += value;
-							if (mixTotal > 0) {
-								int amt = (int)(stack.amount*mix/mixTotal);
-								if (amt > 0) {
-									double transferAmt = mix*(amt/(stack.amount*mix/mixTotal));
-									if (transferAmt > mix)
-										throw new LeafiaDevFlaw("transferAmt higher than mix. Leafia is a dumbass.");
+							LeafiaMap<String,Double> contents = new LeafiaMap<>();
+							double total = 0;
+							for (Entry<String,Double> entry : mixture.entrySet()) {
+								contents.put(entry.getKey(),entry.getValue()*stack.amount);
+								total += entry.getValue()*stack.amount;
+							}
+							if (total > 0) {
+								double ratio = stack.amount/total;
+								//LeafiaDebug.debugLog(world,"Total: "+total);
+								//LeafiaDebug.debugLog(world,"Ratio: "+ratio);
+								double mix = mixture.getOrDefault(filter.name(),0d);
+								LeafiaMap<String,Double> output = new LeafiaMap<>();
+								output.put(filter.name(),contents.get(filter.name()));
+								contents.remove(filter.name());
 
-									if (transferAmt > 0) {
-										Map<String,Double> mixture2 = new LeafiaMap<>();
-										mixture2.put(filter.name(),transferAmt);
-										mixture.put(filter.name(),mix-transferAmt);
-
-										FluidStack fillStack = new FluidStack(stack.getFluid(),amt,MSRTEBase.writeMixture(mixture2,new NBTTagCompound()));
-
-										// this is so jankshit
-										stack = prov.getSendingTank(stack).getFluid();
-										if (stack == null)
-											throw new LeafiaDevFlaw("Got null FluidStack after processing. How?!");
-										stack.amount -= fillStack.amount;
-										stack.tag = MSRTEBase.writeMixture(mixture,new NBTTagCompound());
-										prov.getSendingTank(stack).setFluid(stack);
-
-										tank.fill(fillStack,true);
-									}
+								NBTTagCompound tag0 = new NBTTagCompound();
+								mixture = new LeafiaMap<>();
+								for (Entry<String,Double> entry : contents.entrySet()) {
+									mixture.put(entry.getKey(),entry.getValue()/stack.amount);
 								}
+								NBTTagCompound tag1 = new NBTTagCompound();
+								LeafiaMap<String,Double> outMix = new LeafiaMap<>();
+								for (Entry<String,Double> entry : output.entrySet()) {
+									outMix.put(entry.getKey(),entry.getValue()/stack.amount);
+								}
+								MSRTEBase.writeMixture(mixture,tag0);
+								MSRTEBase.writeMixture(mixture,tag1);
+								FluidStack senderFluid = new FluidStack(getType().getFF(),(int) ((total-mix*stack.amount)*ratio),tag0);
+								FluidStack outputFluid = new FluidStack(getType().getFF(),(int) (mix*stack.amount*ratio));
+
+								FluidTank sending = prov.getSendingTank(stack);
+								sending.setFluid(senderFluid);
+								tank.fill(outputFluid,true);
 							}
 						}
 					}
