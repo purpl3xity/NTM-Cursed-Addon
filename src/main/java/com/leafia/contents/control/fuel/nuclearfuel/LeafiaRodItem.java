@@ -151,6 +151,8 @@ public class LeafiaRodItem extends AddonItemHazardBase implements IHasCustomMode
 	public int meltdownPriority = 0;
 
 	public float detonateRadius = 5;
+	/// the fuck is point of this
+	@Deprecated
 	public boolean detonateNuclear = false;
 	public boolean detonateVisualsOnly = false;
 	public String detonateConfiguration = "default";
@@ -234,7 +236,7 @@ public class LeafiaRodItem extends AddonItemHazardBase implements IHasCustomMode
 					float z = pos.getZ()+0.5f;
 					detonateRadius *= 1.5f;
 					EntityNukeTorex.statFac(world,x,y,z,detonateRadius);
-					if (detonateNuclear && !detonateVisualsOnly)
+					if (!detonateVisualsOnly)
 						world.spawnEntity(EntityNukeExplosionMK5.statFac(world,(int)detonateRadius,x,y,z));
 				}
 				break;
@@ -246,7 +248,7 @@ public class LeafiaRodItem extends AddonItemHazardBase implements IHasCustomMode
 					float z = pos.getZ()+0.5f;
 					detonateRadius *= 2.5f;
 					EntityNukeTorex.statFacBale(world,x,y,z,detonateRadius);
-					if (detonateNuclear && !detonateVisualsOnly) {
+					if (!detonateVisualsOnly) {
 						EntityBalefire bf = new EntityBalefire(world);
 						bf.posX = x;
 						bf.posY = y;

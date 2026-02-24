@@ -33,6 +33,7 @@ public class HeaterRTGContainer extends Container {
 		this.addSlotToContainer(new SlotItemHandler(tedf.inventory, 12, 62, 58));
 		this.addSlotToContainer(new SlotItemHandler(tedf.inventory, 13, 80, 58));
 		this.addSlotToContainer(new SlotItemHandler(tedf.inventory, 14, 98, 58));
+		this.addSlotToContainer(new SlotItemHandler(tedf.inventory, 15, 4, 40));
 		
 		for(int i = 0; i < 3; i++)
 		{

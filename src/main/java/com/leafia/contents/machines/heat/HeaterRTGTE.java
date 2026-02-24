@@ -4,12 +4,14 @@ import com.hbm.api.tile.IHeatSource;
 import com.hbm.tileentity.IGUIProvider;
 import com.hbm.tileentity.TileEntityMachineBase;
 import com.hbm.util.RTGUtil;
+import com.leafia.contents.control.fuel.nuclearfuel.LeafiaRodItem;
 import com.leafia.contents.machines.heat.container.HeaterRTGContainer;
 import com.leafia.contents.machines.heat.container.HeaterRTGUI;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
@@ -28,7 +30,7 @@ public class HeaterRTGTE extends TileEntityMachineBase implements IHeatSource, I
     public static final int maxHeatEnergy = 750_000;
 
     public HeaterRTGTE() {
-        super(15);
+        super(16);
     }
 
     @Override
@@ -41,6 +43,41 @@ public class HeaterRTGTE extends TileEntityMachineBase implements IHeatSource, I
             this.tryPullHeat();
 
             this.heatGen = RTGUtil.updateRTGs(inventory, new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14}) * 10;
+
+            if (inventory.getStackInSlot(15).getItem() instanceof LeafiaRodItem) {
+                ItemStack stack = inventory.getStackInSlot(15);
+                LeafiaRodItem rod = (LeafiaRodItem)stack.getItem();
+                NBTTagCompound nbt = stack.getTagCompound();
+                double fuelHeat = 20;
+                if (nbt != null) {
+                    fuelHeat = nbt.getDouble("heat");
+                    //if (fuelHeat >= 2000) {
+                    if (nbt.getBoolean("nuke")) {
+                        for (int i = 0; i < inventory.getSlots(); i++)
+                            inventory.setStackInSlot(i, ItemStack.EMPTY);
+                        world.setBlockToAir(pos);
+                        rod.nuke(world,pos);
+                        return;
+                    }
+                    if (nbt.getInteger("spillage") > 20*5) {
+                        ItemStack prevStack = null;
+                        for (int i = 0; i < inventory.getSlots(); i++) {
+                            prevStack = LeafiaRodItem.comparePriority(inventory.getStackInSlot(i), prevStack);
+                            inventory.setStackInSlot(i, ItemStack.EMPTY);
+                        }
+                        world.setBlockToAir(pos);
+                        LeafiaRodItem detonate = (LeafiaRodItem)prevStack.getItem();
+                        detonate.resetDetonate();
+                        detonate.detonateRadius = 2;
+                        detonate.detonate(world, pos);
+                        return;
+                    }
+                    //}
+                }
+                heatGen += (int)Math.floor(Math.pow(fuelHeat/250,0.54)*15)*10;
+                rod.HeatFunction(stack,true,rod.getFlux(stack)*2,0,0,0);
+                rod.decay(stack,inventory,15);
+            }
             this.heatEnergy += heatGen;
             if(heatEnergy > maxHeatEnergy) this.heatEnergy = maxHeatEnergy;
 

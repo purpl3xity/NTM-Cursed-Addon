@@ -6,6 +6,7 @@ import com.hbm.blocks.ITooltipProvider;
 import com.hbm.lib.ForgeDirection;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.hbm.util.I18nUtil;
+import com.leafia.dev.blocks.blockbase.AddonBlockDummyable;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.util.ITooltipFlag;
@@ -24,7 +25,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeaterRTGBlock extends BlockDummyable implements ITooltipProvider, ILookOverlay {
+public class HeaterRTGBlock extends AddonBlockDummyable implements ITooltipProvider, ILookOverlay {
     public HeaterRTGBlock(Material mat,String s) {
         super(mat, s);
     }

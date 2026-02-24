@@ -2,6 +2,7 @@ package com.leafia.contents.machines.heat;
 
 import com.hbm.blocks.ModBlocks;
 import com.hbm.main.ResourceManager;
+import com.hbm.render.NTMRenderHelper;
 import com.hbm.render.item.ItemRenderBase;
 import com.hbm.render.tileentity.IItemRendererProvider;
 import com.leafia.contents.AddonBlocks;
@@ -60,7 +61,7 @@ public class HeaterRTGRender extends TileEntitySpecialRenderer<HeaterRTGTE>
         GlStateManager.rotate(180, 0, 1, 0);
         GlStateManager.scale(1.9, 1.9, 1.9);
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
-        bindTexture(heater_radiothermal_tex);
+        NTMRenderHelper.bindTexture(heater_radiothermal_tex);
         ResourceManager.heater_oilburner.renderAll();
         GlStateManager.shadeModel(GL11.GL_FLAT);
       }
