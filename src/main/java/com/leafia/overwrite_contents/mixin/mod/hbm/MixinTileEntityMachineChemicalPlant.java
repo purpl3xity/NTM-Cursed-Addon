@@ -61,6 +61,8 @@ public abstract class MixinTileEntityMachineChemicalPlant extends TileEntityMach
 					//LeafiaDebug.debugLog(world,"Chance: "+chance+", willSetOnFire: "+willSetOnFire);
 					if (world.rand.nextInt(chance/5) == 0) {
 						destroyed = true;
+						for (FluidTankNTM tank2 : getAllTanks())
+							tank2.setFill(0);
 						onFire = willSetOnFire;
 						world.createExplosion(null,pos.getX()+0.5,pos.getY()+0.5,pos.getZ()+0.5,5,false);
 						break;
@@ -110,7 +112,7 @@ public abstract class MixinTileEntityMachineChemicalPlant extends TileEntityMach
 				List<Entity> affected = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(pos.getX() - 1.5, pos.getY(), pos.getZ() - 1.5, pos.getX() + 2.5, pos.getY() + 5, pos.getZ() + 2.5));
 				for(Entity e : affected) e.setFire(5);
 				if (world.rand.nextInt(3) == 0)
-					LeafiaUtil.spreadFire(world,pos,5);
+					LeafiaUtil.spreadFire(world,pos,4);
 			}
 		}
 	}
