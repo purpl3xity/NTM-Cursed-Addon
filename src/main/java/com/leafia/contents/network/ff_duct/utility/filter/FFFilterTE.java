@@ -170,10 +170,61 @@ public class FFFilterTE extends FFDuctUtilityTEBase implements ITickable, IFluid
 			}
 		}
 	}
+	void doTransfer() {
+		if (getType().getFF() == null) return;
+		if (!world.isRemote) {
+			IBlockState state = world.getBlockState(pos);
+			if (state.getBlock() instanceof FFFilterBlock) {
+				EnumFacing facing = state.getValue(FFDuctUtilityBase.FACING);
+				TileEntity behind = world.getTileEntity(pos.offset(facing,-1));
+				TileEntity ahead = world.getTileEntity(pos.offset(facing));
+				if (behind instanceof IFFProvider prov && ahead instanceof IFFReceiver rec) {
+					FluidStack stack = prov.drain(tank.getCapacity()-tank.getFluidAmount(),false);
+					if (stack != null && AddonFluids.fromFF(stack.getFluid()) == getType() && prov.getSendingTank(stack) != null && tank.getFluidAmount() == 0) {
+						if (stack.tag != null) {
+							NBTTagCompound tag = MSRTEBase.nbtProtocol(stack.tag);
+							Map<String,Double> mixture = MSRTEBase.readMixture(tag);
+							double mix = mixture.getOrDefault(filter.name(),0d);
+							double mixTotal = 0;
+							for (Double value : mixture.values())
+								mixTotal += value;
+							if (mixTotal > 0) {
+								int amt = (int)(stack.amount*mix/mixTotal);
+								if (amt > 0) {
+									double transferAmt = mix*(amt/(stack.amount*mix/mixTotal));
+									if (transferAmt > mix)
+										throw new LeafiaDevFlaw("transferAmt higher than mix. Leafia is a dumbass.");
+
+									if (transferAmt > 0) {
+										Map<String,Double> mixture2 = new LeafiaMap<>();
+										mixture2.put(filter.name(),transferAmt);
+										mixture.put(filter.name(),mix-transferAmt);
+
+										FluidStack fillStack = new FluidStack(stack.getFluid(),amt,MSRTEBase.writeMixture(mixture2,new NBTTagCompound()));
+
+										// this is so jankshit
+										stack = prov.getSendingTank(stack).getFluid();
+										if (stack == null)
+											throw new LeafiaDevFlaw("Got null FluidStack after processing. How?!");
+										stack.amount -= fillStack.amount;
+										stack.tag = MSRTEBase.writeMixture(mixture,new NBTTagCompound());
+										prov.getSendingTank(stack).setFluid(stack);
+
+										tank.fill(fillStack,true);
+									}
+								}
+							}
+						}
+					}
+					tryProvide(tank,world,pos.offset(facing),ForgeDirection.getOrientation(facing));
+				}
+			}
+		}
+	}
 
 	@Override
 	public void update() {
-		doUpdateTest();
+		doUpdate();
 		LeafiaPacket packet = LeafiaPacket._start(this).__write(0,tank.getFluidAmount());
 		if (tank.getFluid() != null && tank.getFluid().tag != null)
 			packet.__write(1,tank.getFluid().tag);
@@ -192,6 +243,9 @@ public class FFFilterTE extends FFDuctUtilityTEBase implements ITickable, IFluid
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		tank.readFromNBT(compound.getCompoundTag("buffer"));
+		try {
+			filter = MSRFuel.valueOf(compound.getString("filter"));
+		} catch (IllegalArgumentException ignored) {}
 	}
 
 	@Override

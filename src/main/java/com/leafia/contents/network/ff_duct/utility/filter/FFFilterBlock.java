@@ -23,12 +23,12 @@ public class FFFilterBlock extends FFDuctUtilityBase implements ICustomItemBlock
 	}
 	@Override
 	public @Nullable TileEntity createNewTileEntity(World worldIn,int meta) {
-		return new FFFilterTE();
+		return new FFFilterTE2();
 	}
 	@Override
 	public void onBlockPlacedBy(World worldIn,BlockPos pos,IBlockState state,EntityLivingBase placer,ItemStack stack) {
 		TileEntity te = worldIn.getTileEntity(pos);
-		if (te instanceof FFFilterTE filter) {
+		if (te instanceof FFFilterTE2 filter) {
 			if (stack.hasTagCompound()) {
 				NBTTagCompound tag = stack.getTagCompound();
 				if (tag.hasKey("filter")) {

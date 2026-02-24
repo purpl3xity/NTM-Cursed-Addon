@@ -40,6 +40,12 @@ public class AddonHazards {
 		//Map<String,Float> fuck = dictMap.get(OreDictManager.CO60);
 		//System.out.println(fuck);
 
+		for (Entry<String,Object> e : AddonOreDictHazards.matList.entrySet()) { // FUCK OFF dude
+			Map<String,Float> map = AddonOreDictHazards.dictMap.get(e.getValue());
+			for (Entry<String,Float> entry : AddonOreDictHazards.prefixToHazMultMap.entrySet())
+				map.putIfAbsent(entry.getKey()+e.getKey(),entry.getValue()); // fuck off man
+		}
+
 		ItemRads.actinium227.register(OreDictManager.AC227);
 		ItemRads.americium241.register(OreDictManager.AM241);
 		ItemRads.americium242.register(OreDictManager.AM242);

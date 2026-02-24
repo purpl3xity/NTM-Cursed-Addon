@@ -66,7 +66,7 @@ import com.leafia.contents.machines.reactors.pwr.debris.PWRDebrisItemRender;
 import com.leafia.contents.machines.reactors.pwr.debris.RenderPWRDebris;
 import com.leafia.contents.network.ff_duct.utility.FFDuctUtilityRender;
 import com.leafia.contents.network.ff_duct.utility.converter.FFConverterTE;
-import com.leafia.contents.network.ff_duct.utility.filter.FFFilterTE;
+import com.leafia.contents.network.ff_duct.utility.filter.FFFilterTE2;
 import com.leafia.contents.network.ff_duct.utility.pump.FFPumpTE;
 import com.leafia.contents.network.fluid.FluidDuctEquipmentRender;
 import com.leafia.contents.network.fluid.gauges.FluidDuctGaugeTE;
@@ -147,7 +147,7 @@ public class LeafiaClientProxy extends LeafiaServerProxy {
 			FFDuctUtilityRender ffUtilityRender = new FFDuctUtilityRender();
 			ClientRegistry.bindTileEntitySpecialRenderer(FFPumpTE.class,ffUtilityRender);
 			ClientRegistry.bindTileEntitySpecialRenderer(FFConverterTE.class,ffUtilityRender);
-			ClientRegistry.bindTileEntitySpecialRenderer(FFFilterTE.class,ffUtilityRender);
+			ClientRegistry.bindTileEntitySpecialRenderer(FFFilterTE2.class,ffUtilityRender);
 
 			ClientRegistry.bindTileEntitySpecialRenderer(SaltSeparatorTE.class,new SaltSeparatorRender());
 			ClientRegistry.bindTileEntitySpecialRenderer(MSRArbitraryTE.class,new MSRArbitraryRender());
