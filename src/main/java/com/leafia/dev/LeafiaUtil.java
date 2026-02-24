@@ -416,7 +416,7 @@ public class LeafiaUtil {
 				BlockPos blockpos = pos;
 
 				for (int j = 0; j < i; ++j) {
-					blockpos = blockpos.add(rand.nextInt(radius)-radius/2,1,rand.nextInt(radius)-radius/2);
+					blockpos = blockpos.add(rand.nextInt(radius*2+1)-radius,1,rand.nextInt(radius*2+1)-radius);
 
 					if (blockpos.getY() >= 0 && blockpos.getY() < worldIn.getHeight() && !worldIn.isBlockLoaded(blockpos)) {
 						return;
@@ -436,7 +436,7 @@ public class LeafiaUtil {
 				}
 			} else {
 				for (int k = 0; k < 3; ++k) {
-					BlockPos blockpos1 = pos.add(rand.nextInt(radius)-radius/2,0,rand.nextInt(radius)-radius/2);
+					BlockPos blockpos1 = pos.add(rand.nextInt(radius*2+1)-radius,0,rand.nextInt(radius*2+1)-radius);
 
 					if (blockpos1.getY() >= 0 && blockpos1.getY() < 256 && !worldIn.isBlockLoaded(blockpos1)) {
 						return;

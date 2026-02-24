@@ -65,7 +65,7 @@ public abstract class MixinTileEntityMachineArcWelder extends TileEntityMachineB
 					for (Entity entity : list)
 						entity.attackEntityFrom(ModDamageSource.electricity,4);
 					if (world.rand.nextInt(50) == 0)
-						LeafiaUtil.spreadFire(world,pos,5);
+						LeafiaUtil.spreadFire(world,pos,2);
 				}
 			}
 		} else {
