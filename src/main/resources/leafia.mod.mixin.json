@@ -58,6 +58,7 @@
     "hbm.MixinFluids",
     "hbm.MixinFluidTankNTM",
     "hbm.MixinFT_Polluting",
+    "hbm.MixinGeneralConfig",
     "hbm.MixinHazardSystem",
     "hbm.MixinHazardTypeHot",
     "hbm.MixinHbmWorldGen",

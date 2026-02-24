@@ -27,6 +27,7 @@ import com.leafia.contents.machines.elevators.EvShaft;
 import com.leafia.contents.machines.elevators.EvShaftNeo;
 import com.leafia.contents.machines.elevators.car.ElevatorLight;
 import com.leafia.contents.machines.elevators.floors.EvFloor;
+import com.leafia.contents.machines.heat.HeaterRTGBlock;
 import com.leafia.contents.machines.misc.heatex.CoolantHeatexBlock;
 import com.leafia.contents.machines.panel.controltorch.ControlTorchBlock;
 import com.leafia.contents.machines.powercores.ams.base.AMSBaseBlock;
@@ -334,6 +335,8 @@ public class AddonBlocks {
 
 		public static final Block light = new ElevatorLight(Material.AIR,"elevator_light").setCreativeTab(null);
 	}
+
+	public static final Block heater_rt = new HeaterRTGBlock(Material.IRON, "heater_rt").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 
 	static {
 		if (Loader.isModLoaded("opencomputers")) {

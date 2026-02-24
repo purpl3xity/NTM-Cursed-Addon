@@ -10,6 +10,7 @@ import com.leafia.contents.machines.elevators.EvBufferTE;
 import com.leafia.contents.machines.elevators.EvPulleyTE;
 import com.leafia.contents.machines.elevators.EvShaftTE;
 import com.leafia.contents.machines.elevators.floors.EvFloorTE;
+import com.leafia.contents.machines.heat.HeaterRTGTE;
 import com.leafia.contents.machines.misc.heatex.CoolantHeatexTE;
 import com.leafia.contents.machines.panel.controltorch.ControlTorchTE;
 import com.leafia.contents.machines.powercores.ams.base.AMSBaseTE;
@@ -96,6 +97,7 @@ public class TEInit {
 		register(EvPulleyTE.class,"ev_pulley_te");
 		register(EvShaftTE.class,"ev_shaft_te");
 		register(EvBufferTE.class,"ev_buffer_te");
+		register(HeaterRTGTE.class,"heater_rt_te");
 	}
 	private static void register(Class<? extends TileEntity> clazz,String res) {
 		GameRegistry.registerTileEntity(clazz,new ResourceLocation(AddonBase.MODID,res));

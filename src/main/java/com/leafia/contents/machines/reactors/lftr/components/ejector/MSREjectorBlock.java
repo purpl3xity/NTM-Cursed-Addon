@@ -110,9 +110,9 @@ public class MSREjectorBlock extends BlockContainer implements ITooltipProvider,
 
 	@SideOnly(Side.CLIENT)
 	@Override
-	public void printHook(RenderGameOverlayEvent.Pre event,World world,int x,int y,int z) {
+	public void printHook(RenderGameOverlayEvent.Pre event,World world,BlockPos pos) {
 		List<String> texts = new ArrayList<>();
-		MSRTEBase.appendPrintHook(texts,world,x,y,z);
+		MSRTEBase.appendPrintHook(texts,world,pos);
 		LeafiaGls.pushMatrix();
 		LeafiaGls.scale(0.5);
 		ScaledResolution resolution = event.getResolution();

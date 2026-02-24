@@ -34,6 +34,8 @@ import com.leafia.contents.machines.elevators.floors.EvFloorRender;
 import com.leafia.contents.machines.elevators.floors.EvFloorTE;
 import com.leafia.contents.machines.elevators.weight.EvWeightEntity;
 import com.leafia.contents.machines.elevators.weight.EvWeightRender;
+import com.leafia.contents.machines.heat.HeaterRTGRender;
+import com.leafia.contents.machines.heat.HeaterRTGTE;
 import com.leafia.contents.machines.misc.heatex.CoolantHeatexRender;
 import com.leafia.contents.machines.misc.heatex.CoolantHeatexTE;
 import com.leafia.contents.machines.powercores.ams.base.AMSBaseRender;
@@ -173,6 +175,8 @@ public class LeafiaClientProxy extends LeafiaServerProxy {
 			ClientRegistry.bindTileEntitySpecialRenderer(EvPulleyTE.class, new EvPulleyRender());
 			ClientRegistry.bindTileEntitySpecialRenderer(EvShaftTE.class, new EvShaftRender());
 			ClientRegistry.bindTileEntitySpecialRenderer(EvBufferTE.class, new EvBufferRender());
+
+			ClientRegistry.bindTileEntitySpecialRenderer(HeaterRTGTE.class, new HeaterRTGRender());
 		}
 		AddonJars.initJars();
 	}

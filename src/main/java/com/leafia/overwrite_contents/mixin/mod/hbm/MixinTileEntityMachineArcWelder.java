@@ -39,7 +39,7 @@ public abstract class MixinTileEntityMachineArcWelder extends TileEntityMachineB
 		if (world.isRemote) {
 			if (progress > 0 || leafia$client_looptimer) {
 				if (leafia$client_sfx == null) {
-					leafia$client_sfx = AddonBase.proxy.getLoopedSound(LeafiaSoundEvents.arc_welder,SoundCategory.BLOCKS,pos.getX()+0.5f,pos.getY()+0.5f,pos.getZ()+0.5f,2,1);
+					leafia$client_sfx = AddonBase.proxy.getLoopedSoundStartStop(world,LeafiaSoundEvents.arc_welder,LeafiaSoundEvents.arc_welder_start,LeafiaSoundEvents.arc_welder_stop,SoundCategory.BLOCKS,pos.getX()+0.5f,pos.getY()+0.5f,pos.getZ()+0.5f,1.4f,1);
 					leafia$client_sfx.startSound();
 				}
 				ForgeDirection dir = ForgeDirection.getOrientation(this.getBlockMetadata()-10);
@@ -60,7 +60,7 @@ public abstract class MixinTileEntityMachineArcWelder extends TileEntityMachineB
 				}
 				if (world.getTotalWorldTime()%2 == 0 || world.rand.nextInt(3) == 0) {
 					FlashParticle flash = new FlashParticle();
-					flash.scale = world.rand.nextFloat()*0.15f+0.1f;
+					flash.scale = world.rand.nextFloat()*0.02f+0.2f;
 					flash.ticksIn = 2;
 					flash.ticksOut = world.rand.nextInt(2)+2;
 					flash.emitLocal(vec,up);
