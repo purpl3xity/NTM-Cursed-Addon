@@ -1,12 +1,13 @@
 package com.leafia.settings;
 
 import com.hbm.config.GeneralConfig;
+import com.leafia.dev.LeafiaDebug;
 
 public class AddonConfig {
 	public static boolean useLeafiaTorex = true;
 	public static boolean enableHealthMod = true;
     public static int dfcComponentRange = 50;
-	public static boolean enableFirestorm = false;
+	public static boolean enableFirestorm = LeafiaDebug.isDevEnv;
 	public static boolean enableWackySplashes = true;
 	public static boolean enableAcidRainRender = true;
 	public static class ConfigOverrides {

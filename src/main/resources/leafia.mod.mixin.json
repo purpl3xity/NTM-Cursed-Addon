@@ -72,6 +72,7 @@
     "hbm.MixinItemLaserDetonator",
     "hbm.MixinJEIConfig",
     "hbm.MixinLandmine",
+    "hbm.MixinMachineArcWelder",
     "hbm.MixinMachineChemicalPlant",
     "hbm.MixinMachineSiren",
     "hbm.MixinModBlocks",

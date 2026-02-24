@@ -73,4 +73,12 @@ public abstract class MixinTileEntityMachineSolderingStation extends TileEntityM
 		}
 		super.invalidate();
 	}
+	@Override
+	public void onChunkUnload() {
+		if (leafia$client_sfx != null) {
+			leafia$client_sfx.stopSound();
+			leafia$client_sfx = null;
+		}
+		super.onChunkUnload();
+	}
 }

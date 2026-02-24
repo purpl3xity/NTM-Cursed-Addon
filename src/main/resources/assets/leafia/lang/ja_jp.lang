@@ -319,6 +319,7 @@ tile.lwr_vent_inlet.desc=Component of PWR Emergency Cooling system$May be signal
 tile.lwr_vent_inlet.name=PWR Emergency Cooling Supplier
 tile.lwr_vent_outlet.desc=Component of PWR Emergency Cooling system$Cooling efficiency will depend on blocks in front of it, does not work if blocked$Placement: On one end of Emergency Cooling Elements, facing outwards
 tile.lwr_vent_outlet.name=PWR Emergency Cooling Vent
+tile.machine_arc_welder.warn=雨を含む水気を避けて置いてください
 tile.mixingvat.name=ミキシングバット
 tile.msr_arbitrary.desc=任意のLFTRブロックであり、流体を通すうえ、$好きなブロックを入れることができます。$$通常は黒煙ブロック、PWR中性子反射ブロック又は放射線射影属性のブロックを使用します。
 tile.msr_arbitrary.name=LFTR任意ブロック
