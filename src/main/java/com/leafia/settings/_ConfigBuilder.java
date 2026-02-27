@@ -13,14 +13,19 @@ import java.util.Map;
 import java.util.List;
 
 public class _ConfigBuilder {
-	private final String path;
-	private final File file;
+	private String path;
+	private File file;
 	public _ConfigBuilder(String name) {
 		name = "config/hbm/" + name + ".lcfg";
 		this.path = name;
 		file = new File(name);
 		createEmptyFile();
 		loadConfig();
+	}
+	public void changePath(String name) {
+		name = "config/hbm/" + name + ".lcfg";
+		this.path = name;
+		file = new File(name);
 	}
 	private Map<String,String> values = new HashMap<>();
 	private Map<String,Integer> lineIndices = new HashMap<>();

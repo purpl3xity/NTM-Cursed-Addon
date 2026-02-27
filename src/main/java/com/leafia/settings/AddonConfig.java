@@ -62,6 +62,7 @@ public class AddonConfig {
 		public static Map<String,RodInfo> map = new HashMap<>();
 		public static void loadFromConfig() {
 			_ConfigBuilder builder = new _ConfigBuilder("generic_fuels");
+			builder._category("Remove underscore in the file to apply");
 			builder._separator();
 			builder._autoLineBreak = false;
 			for (Entry<String,LeafiaRodItem> entry : LeafiaRodItem.fromResourceMap.entrySet()) {
@@ -74,6 +75,7 @@ public class AddonConfig {
 					builder._separator();
 				}
 			}
+			builder.changePath("_generic_fuels");
 			builder.saveConfig();
 		}
 	}
