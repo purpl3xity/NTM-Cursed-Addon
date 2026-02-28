@@ -90,7 +90,7 @@ public abstract class MixinTileEntityCoreStabilizer extends TileEntityMachineBas
 			this.updateConnections();
 
 			watts = MathHelper.clamp(watts, 1, 100);
-			long demand = (long) Math.pow(watts, 6);
+			long demand = (long) Math.pow(watts, 5);
 			isOn = false;
 
 			//beam = 0;
