@@ -79,6 +79,7 @@ public class DebugBoomBlock extends AddonBlockBase implements IBomb {
 					int my = world.getHeight(cx+ox,cz+oz)-1;
 					for (int y = my; y > my-depth; y--) {
 						p.setPos(cx+ox,y,cz+oz);
+						if (y <= 0) break;
 						if (world.rand.nextInt(5) == 0) {
 							IBlockState state = world.getBlockState(p);
 							if (state.getRenderType() != EnumBlockRenderType.INVISIBLE) {
@@ -102,6 +103,7 @@ public class DebugBoomBlock extends AddonBlockBase implements IBomb {
 					}
 					for (int y = my-depth; y > my-depth-3; y--) {
 						p.setPos(cx+ox,y,cz+oz);
+						if (y <= 0) break;
 						if (LeafiaUtil.isSolidVisibleCube(world.getBlockState(p)))
 							world.setBlockState(
 									p,
