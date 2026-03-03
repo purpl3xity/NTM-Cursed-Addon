@@ -7,6 +7,7 @@ import com.hbm.blocks.network.SimpleUnlistedProperty;
 import com.hbm.items.IDynamicModels;
 import com.hbm.items.tool.ItemTooling;
 import com.hbm.lib.ForgeDirection;
+import com.leafia.contents.machines.elevators.EvPulleyTE;
 import com.leafia.contents.machines.elevators.floors.model.EvFloorBakedModel;
 import com.leafia.dev.LeafiaDebug;
 import com.leafia.dev.blocks.blockbase.AddonBlockDummyable;
@@ -47,6 +48,16 @@ public class EvFloor extends AddonBlockDummyable implements IDynamicModels {
 	public EvFloor(Material materialIn,String s) {
 		super(materialIn,s);
 		IDynamicModels.INSTANCES.add(this);
+	}
+
+	@Nullable
+	public static EvPulleyTE getPulley(World world,BlockPos centerPos) {
+		while (centerPos.getY() < world.getHeight()) {
+			if (world.getTileEntity(centerPos) instanceof EvPulleyTE pulley)
+				return pulley;
+			centerPos = centerPos.up();
+		}
+		return null;
 	}
 
 	@Override
@@ -112,23 +123,31 @@ public class EvFloor extends AddonBlockDummyable implements IDynamicModels {
 				}
 			}
 		} else {
-			IBlockState coreState = world.getBlockState(new BlockPos(core[0],core[1],core[2]));
-			FiaMatrix rot = getMatrix(getMetaFromState(coreState));
-			FiaMatrix mat = new FiaMatrix(new Vec3d(core[0]+0.5,core[1],core[2]+0.5)).rotateAlong(rot);
-			FiaMatrix clicked = new FiaMatrix(new Vec3d(pos.getX()+hitX,pos.getY()+hitY,pos.getZ()+hitZ));
-			FiaMatrix rel = mat.toObjectSpace(clicked);
-			//LeafiaDebug.debugMat(world,mat,1,0x00FF00,"mat");
-			//LeafiaDebug.debugMat(world,clicked,1,0x00FF00,"clicked");
-			//LeafiaDebug.debugLog(world,rel.position);
-			double x = rel.position.x;
-			double y = rel.position.y;
-			float staticX = 0.125f*5;
-			float staticY = 0.125f*8;
-			if (x >= staticX && x <= staticX+1/16d && y >= staticY && y <= staticY+1/16d) {
-				if (!world.isRemote) {
-
+			TileEntity te = world.getTileEntity(new BlockPos(core[0],core[1],core[2]));
+			if (te instanceof EvFloorTE floor) {
+				IBlockState coreState = world.getBlockState(new BlockPos(core[0], core[1], core[2]));
+				FiaMatrix rot = getMatrix(getMetaFromState(coreState));
+				FiaMatrix mat = new FiaMatrix(new Vec3d(core[0] + 0.5, core[1], core[2] + 0.5)).rotateAlong(rot);
+				FiaMatrix clicked = new FiaMatrix(new Vec3d(pos.getX() + hitX, pos.getY() + hitY, pos.getZ() + hitZ));
+				FiaMatrix rel = mat.toObjectSpace(clicked);
+				//LeafiaDebug.debugMat(world,mat,1,0x00FF00,"mat");
+				//LeafiaDebug.debugMat(world,clicked,1,0x00FF00,"clicked");
+				//LeafiaDebug.debugLog(world,rel.position);
+				double x = rel.position.x;
+				double y = rel.position.y;
+				float staticX = 0.125f * 5;
+				float staticY = 0.125f * 8;
+				if (x >= staticX && x <= staticX + 1 / 16d && y >= staticY && y <= staticY + 1 / 16d) {
+					if (!world.isRemote) {
+						// when button is pressed
+						BlockPos centerPos = new BlockPos(core[0], core[1], core[2]).offset(EnumFacing.byIndex(coreState.getValue(META) - 10).getOpposite());
+						//LeafiaDebug.debugPos(world,centerPos,2,0xFF0000,"HELLO");
+						EvPulleyTE pulley = getPulley(world, centerPos);
+						if (pulley != null && pulley.elevator != null)
+							pulley.elevator.onButtonServer("floor"+floor.floor,player,hand);
+					}
+					return true;
 				}
-				return true;
 			}
 		}
 		return false;

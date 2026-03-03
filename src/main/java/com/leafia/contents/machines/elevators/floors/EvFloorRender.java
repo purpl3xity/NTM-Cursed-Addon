@@ -1,12 +1,15 @@
 package com.leafia.contents.machines.elevators.floors;
 
 import com.hbm.render.loader.WaveFrontObjectVAO;
+import com.leafia.contents.AddonBlocks;
 import com.leafia.contents.machines.elevators.car.ElevatorRender.S6;
 import com.leafia.dev.LeafiaBrush;
 import com.leafia.transformer.LeafiaGls;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import org.lwjgl.opengl.GL11;
 
+import com.leafia.contents.AddonBlocks.Elevators;
 import static com.leafia.contents.machines.elevators.car.ElevatorRender.model;
 
 public class EvFloorRender extends TileEntitySpecialRenderer<EvFloorTE> {
@@ -25,7 +28,9 @@ public class EvFloorRender extends TileEntitySpecialRenderer<EvFloorTE> {
 			case 5:
 				GL11.glRotatef(90, 0F, 1F, 0F); break;
 		}
-		bindTexture(S6.door);
+		Block bluk = te.getBlockType();
+		if (bluk == Elevators.s6_floor)
+			bindTexture(S6.door);
 		mdl.renderPart("Frames");
 		float door = te.open.get();
 		LeafiaGls.pushMatrix();
@@ -37,7 +42,11 @@ public class EvFloorRender extends TileEntitySpecialRenderer<EvFloorTE> {
 		mdl.renderPart("DoorR");
 		LeafiaGls.popMatrix();
 
-		bindTexture(S6.buttonOff);
+		boolean on = false;
+		if (te.pulley != null && te.pulley.elevator != null)
+			on = te.pulley.elevator.enabledButtons.contains("floor"+te.floor);
+		if (bluk == Elevators.s6_floor)
+			bindTexture(on ? S6.buttonOn : S6.buttonOff);
 		LeafiaBrush brush = LeafiaBrush.instance;
 		float staticX = 0.125f*5;
 		float staticY = 0.125f*8;

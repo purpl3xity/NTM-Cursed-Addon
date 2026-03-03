@@ -53,6 +53,7 @@ public class EvChipSkylift extends EvChipBase {
 	boolean shouldOpen = false;
 	void openingDoor() {
 		entity.doorOpen = true;
+		entity.startFloor = null;
 		if (entity.targetFloors.contains(entity.parkFloor)) {
 			entity.targetFloors.removeElement(entity.parkFloor);
 			entity.enabledButtons.remove("floor"+entity.parkFloor);
@@ -86,6 +87,7 @@ public class EvChipSkylift extends EvChipBase {
 			closing = false;
 			doorOpenTimer = 0;
 			dinged = false;
+			entity.startFloor = entity.getDataInteger(ElevatorEntity.FLOOR);
 		}
 	}
 	@Override

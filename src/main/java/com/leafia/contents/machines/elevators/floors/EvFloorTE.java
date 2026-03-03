@@ -3,6 +3,7 @@ package com.leafia.contents.machines.elevators.floors;
 import com.leafia.AddonBase;
 import com.leafia.contents.AddonBlocks.Elevators;
 import com.hbm.main.MainRegistry;
+import com.leafia.contents.machines.elevators.EvPulleyTE;
 import com.leafia.dev.LeafiaDebug;
 import com.leafia.dev.container_utility.LeafiaPacket;
 import com.leafia.dev.container_utility.LeafiaPacketReceiver;
@@ -12,7 +13,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 
 public class EvFloorTE extends TileEntity implements ITickable,LeafiaPacketReceiver {
 	static final byte idGui = 31;
@@ -34,7 +38,7 @@ public class EvFloorTE extends TileEntity implements ITickable,LeafiaPacketRecei
 	public int floor = 1;
 	public FiaLatch<Float> open = new FiaLatch<>(0f);
 	public void openGui(EntityPlayer player) {
-		LeafiaPacket._start(this).__write(idFloor,floor).__write(idGui,0).__sendToClient(player);
+		LeafiaPacket._start(this).__write(idGui,0).__sendToClient(player);
 	}
 	@Override
 	public String getPacketIdentifier() {
@@ -73,12 +77,34 @@ public class EvFloorTE extends TileEntity implements ITickable,LeafiaPacketRecei
 		return 1024;
 	}
 
+	AxisAlignedBB aabb;
+	@Override
+	public AxisAlignedBB getRenderBoundingBox() {
+		if (aabb == null) {
+			aabb = new AxisAlignedBB(
+					pos.getX()-1,pos.getY(),pos.getZ()-1,
+					pos.getX()+2,pos.getY()+3,pos.getZ()+2
+			);
+		}
+		return aabb;
+	}
+
+	EvPulleyTE pulley;
+
 	@Override
 	public void update() {
 		if (open.needsUpdate()) {
-			LeafiaDebug.debugLog(world,"fuck you "+open.cur);
+			//LeafiaDebug.debugLog(world,"fuck you "+open.cur);
 			LeafiaPacket._start(this).__write(idOpen,open.update()).__sendToAffectedClients();
 		}
+		if (world.isRemote) {
+			if (pulley != null && pulley.isInvalid()) pulley = null;
+			if (pulley == null) {
+				BlockPos centerPos = pos.offset(EnumFacing.byIndex(getBlockMetadata()-10).getOpposite());
+				pulley = EvFloor.getPulley(world,centerPos);
+			}
+		} else
+			LeafiaPacket._start(this).__write(idFloor,floor).__sendToClients(32);
 	}
 
 	@Override

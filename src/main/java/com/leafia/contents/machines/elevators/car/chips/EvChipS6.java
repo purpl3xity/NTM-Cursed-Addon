@@ -2,6 +2,7 @@ package com.leafia.contents.machines.elevators.car.chips;
 
 import com.leafia.contents.machines.elevators.car.ElevatorEntity;
 import com.leafia.contents.machines.elevators.car.ElevatorEntity.EvButtonEnablePacket;
+import com.leafia.dev.LeafiaDebug;
 import com.leafia.dev.custompacket.LeafiaCustomPacket;
 import com.leafia.init.LeafiaSoundEvents;
 import com.llib.technical.LeafiaEase;
@@ -58,6 +59,7 @@ public class EvChipS6 extends EvChipBase {
 		if (entity.isEnd(entity.down))
 			entity.down = !entity.down;
 		entity.doorOpen = true;
+		entity.startFloor = null;
 		if (entity.targetFloors.contains(entity.parkFloor)) {
 			entity.targetFloors.removeElement(entity.parkFloor);
 			entity.enabledButtons.remove("floor"+entity.parkFloor);
@@ -103,6 +105,7 @@ public class EvChipS6 extends EvChipBase {
 			closing = false;
 			doorOpenTimer = 0;
 			pingpongTimer = 0;
+			entity.startFloor = entity.getDataInteger(ElevatorEntity.FLOOR);
 		}
 	}
 	@Override
