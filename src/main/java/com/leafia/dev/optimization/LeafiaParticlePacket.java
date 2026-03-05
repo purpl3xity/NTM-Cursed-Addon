@@ -404,6 +404,34 @@ public class LeafiaParticlePacket extends RecordablePacket {
 			Minecraft.getMinecraft().effectRenderer.addEffect(particle);
 		}
 	}
+	public static class RBMKJetParticle extends LeafiaParticle {
+		int maxAge;
+		public RBMKJetParticle() { }
+		public RBMKJetParticle(int maxAge) {
+			this.maxAge = maxAge;
+		}
+		@Override
+		protected LeafiaParticle fromBits(LeafiaBuf buf,NBTTagCompound nbt) {
+			return new RBMKJetParticle(buf.readByte());
+		}
+		@Override
+		protected void toBits(LeafiaBuf buf) {
+			buf.writeByte(maxAge);
+		}
+		@Override
+		@SideOnly(Side.CLIENT)
+		protected void emit(NBTTagCompound nbt) {
+			World world = Minecraft.getMinecraft().world;
+			ParticleRBMKJet particle = new ParticleRBMKJet(
+					world,
+					nbt.getDouble("posX"),
+					nbt.getDouble("posY"),
+					nbt.getDouble("posZ"),
+					maxAge
+			);
+			Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+		}
+	}
 
 
 

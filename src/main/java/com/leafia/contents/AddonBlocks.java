@@ -21,6 +21,7 @@ import com.leafia.contents.building.sign.SignBlock;
 import com.leafia.contents.debug.explosion_test.DebugBoomBlock;
 import com.leafia.contents.debug.ff_test.source.DebugSourceBlock;
 import com.leafia.contents.debug.ff_test.tank.DebugTankBlock;
+import com.leafia.contents.debug.rbmk_jet.DebugRBMKJetEmitter;
 import com.leafia.contents.fluids.FluorideFluid.FluorideFluidBlock;
 import com.leafia.contents.machines.elevators.EvBuffer;
 import com.leafia.contents.machines.elevators.EvPulley;
@@ -228,6 +229,7 @@ public class AddonBlocks {
 		public static final Block ffsource = new DebugSourceBlock(Material.ANVIL,"test_ff_source");
 		public static final Block fftank = new DebugTankBlock(Material.ANVIL,"test_ff_tank");
 		public static final Block boom = new DebugBoomBlock(Material.ANVIL,"test_boom");
+		public static final Block rbmkjet = new DebugRBMKJetEmitter(Material.ANVIL,"test_rbmk_jet");
 	}
 
 	public static final Block salt_separator = new SaltSeparatorBlock(Material.IRON,"salt_separator").setHardness(5.0F).setResistance(20.0F).setCreativeTab(MainRegistry.machineTab);

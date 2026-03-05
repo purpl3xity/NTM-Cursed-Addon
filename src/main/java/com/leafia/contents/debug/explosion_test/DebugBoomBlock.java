@@ -161,5 +161,15 @@ public class DebugBoomBlock extends AddonBlockBase implements IBomb {
 				}).setPos(new BlockPos(x,y,z)),
 				new NetworkRegistry.TargetPoint(world.provider.getDimension(),x,y,z,300)
 		);
+		PacketThreading.createSendToAllTrackingThreadedPacket(
+				new CommandLeaf.ShakecamPacket(new String[]{
+						"type=simple",
+						"preset=RUPTURE",
+						"blurDulling*4",
+						"intensity*1.5",
+						"range=250"
+				}).setPos(new BlockPos(x,y,z)),
+				new NetworkRegistry.TargetPoint(world.provider.getDimension(),x,y,z,300)
+		);
 	}
 }

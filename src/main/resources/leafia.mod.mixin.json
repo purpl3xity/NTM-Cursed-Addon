@@ -20,9 +20,11 @@
     "hbm.MixinRenderChemicalPlant",
     "hbm.MixinRenderControlPanel",
     "hbm.MixinRenderInfoSystemLegacy",
+    "hbm.MixinRenderRBMKLid",
     "hbm.MixinRenderTorex"
   ],
   "mixins": [
+    "hbm.MixinTileEntityRBMKRod",
     "hbm.MixinBalefire",
     "hbm.MixinBlockControlPanel",
     "hbm.MixinBlockGasExplosive",
@@ -106,6 +108,7 @@
     "hbm.MixinTileEntityMachineSiren",
     "hbm.MixinTileEntityMachineSolderingStation",
     "hbm.MixinTileEntityMachineTurbine",
+    "hbm.MixinTileEntityRBMKBase",
     "hbm.MixinTileEntityReactorResearch",
     "hbm.MixinTileEntityReactorZIRNOX",
     "hbm.MixinTileEntityTurbineBase",
