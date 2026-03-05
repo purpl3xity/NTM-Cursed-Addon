@@ -4,6 +4,7 @@ import com.hbm.api.energymk2.IEnergyReceiverMK2;
 import com.hbm.lib.ForgeDirection;
 import com.leafia.contents.machines.elevators.car.ElevatorEntity;
 import com.leafia.contents.machines.elevators.weight.EvWeightEntity;
+import com.leafia.dev.LeafiaDebug;
 import com.leafia.dev.container_utility.LeafiaPacket;
 import com.leafia.dev.container_utility.LeafiaPacketReceiver;
 import net.minecraft.entity.player.EntityPlayer;
@@ -41,7 +42,7 @@ public class EvPulleyTE extends TileEntity implements IEnergyReceiverMK2, ITicka
 				counterweight.posY = pos.getY()-setupDistWeight+offset;
 			}
 			EnumFacing face = EnumFacing.byIndex(getBlockMetadata()-10);
-			trySubscribe(world,pos.offset(face.rotateY()).down(),ForgeDirection.DOWN);
+			trySubscribe(world,pos.offset(face.getOpposite().rotateY()).down(),ForgeDirection.DOWN);
 			if (power >= consumption)
 				power -= consumption;
 			LeafiaPacket._start(this).__write(0,power).__sendToAffectedClients();

@@ -103,8 +103,9 @@ public abstract class MixinEntityMeteor extends Entity implements IMixinEntityMe
 	private boolean leafia$onOnUpdate() {
 		if (!AddonConfig.enableMeteorCraters) return GeneralConfig.enableMeteorTails;
 		if (GeneralConfig.enableMeteorTails) {
-			DebugBoomBlock.createMeteorExplosionEffect(world,posX,posY,posZ);
-			DebugBoomBlock.createMeteorCrater(world,new BlockPos(posX,posY,posZ));
+			// for some reason its both Z axis in original code
+			DebugBoomBlock.createMeteorExplosionEffect(world,posX+(this.motionZ*4),posY,posZ+(this.motionZ*4));
+			DebugBoomBlock.createMeteorCrater(world,new BlockPos(posX+(this.motionZ*4),posY,posZ+(this.motionZ*4)));
 		}
 		return false;
 	}

@@ -62,7 +62,7 @@ public class DebugBoomBlock extends AddonBlockBase implements IBomb {
 		}
 		return BombReturnCode.DETONATED;
 	}
-	public static final int radius = 11;
+	public static final int radius = 13;
 	public static final int maxDepth = 8;
 	public static void createMeteorCrater(World world,BlockPos pos) {
 		int cx = pos.getX();
@@ -104,11 +104,20 @@ public class DebugBoomBlock extends AddonBlockBase implements IBomb {
 					for (int y = my-depth; y > my-depth-3; y--) {
 						p.setPos(cx+ox,y,cz+oz);
 						if (y <= 0) break;
-						if (LeafiaUtil.isSolidVisibleCube(world.getBlockState(p)))
-							world.setBlockState(
-									p,
-									ModBlocks.sellafield_slaked.getDefaultState().withProperty(BlockSellafieldSlaked.SHADE,(int)(Math.pow(1-ratio,0.65)*6))
-							);
+						if (LeafiaUtil.isSolidVisibleCube(world.getBlockState(p))) {
+							int shade = (int)(Math.pow(Math.max(1-ratio*1.1,0),0.65)*8);
+							if (shade >= 6)
+								if (world.rand.nextInt(50) == 0)
+									world.setBlockState(p,ModBlocks.ore_tektite_osmiridium.getDefaultState());
+								else
+									world.setBlockState(p,ModBlocks.tektite.getDefaultState());
+							else {
+								world.setBlockState(
+										p,
+										ModBlocks.sellafield_slaked.getDefaultState().withProperty(BlockSellafieldSlaked.SHADE,shade)
+								);
+							}
+						}
 					}
 				}
 			}
