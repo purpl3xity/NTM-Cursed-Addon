@@ -15,6 +15,7 @@ import com.leafia.contents.machines.elevators.EvShaftRender;
 import com.leafia.contents.machines.elevators.car.ElevatorRender;
 import com.leafia.contents.machines.elevators.floors.EvFloorRender;
 import com.leafia.contents.machines.elevators.weight.EvWeightRender;
+import com.leafia.contents.machines.heat.hpboiler.HPBoilerRender;
 import com.leafia.contents.machines.powercores.ams.stabilizer.AMSStabilizerRender;
 import com.leafia.contents.machines.powercores.dfc.render.DFCComponentRender;
 import com.leafia.contents.machines.powercores.dfc.render.DFCCoreRender;
@@ -86,6 +87,7 @@ public class ResourceInit {
 		_initClass(EvShaftRender.class);
 		_initClass(EvPulleyRender.class);
 		_initClass(EvFloorRender.class);
+		_initClass(HPBoilerRender.class);
 		/*{
 			setWreckModel("intact");
 			setWreckModel("metal_rubble_0");

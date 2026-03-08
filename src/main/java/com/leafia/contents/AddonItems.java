@@ -4,6 +4,7 @@ import com.hbm.blocks.ICustomBlockItem;
 import com.hbm.blocks.generic.BlockModDoor;
 import com.hbm.items.ModItems;
 import com.hbm.main.MainRegistry;
+import com.hbm.util.I18nUtil;
 import com.leafia.AddonBase;
 import com.leafia.contents.bomb.missile.customnuke.CustomNukeMissileItem;
 import com.leafia.contents.building.pinkdoor.ItemPinkDoor;
@@ -15,6 +16,7 @@ import com.leafia.contents.gear.utility.FuzzyIdentifierItem;
 import com.leafia.contents.gear.wands.ItemWandV;
 import com.leafia.contents.machines.elevators.car.chips.EvChipItem;
 import com.leafia.contents.machines.elevators.car.styles.EvStyleItem;
+import com.leafia.contents.machines.elevators.car.styles.EvStyleItem.StyleType;
 import com.leafia.contents.machines.elevators.items.EvSpawnItem;
 import com.leafia.contents.machines.elevators.items.WeightSpawnItem;
 import com.leafia.contents.machines.powercores.dfc.CrucifixItem;
@@ -34,9 +36,12 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.leafia.contents.control.fuel.nuclearfuel.LeafiaRodItem.ItemType.BILLET;
@@ -525,14 +530,28 @@ public class AddonItems {
 
 	public static class ElevatorStyles {
 		public static final List<EvStyleItem> styleItems = new ArrayList<>();
-		public static final Item s6chip = new EvChipItem("ev_chip_s6","leafia/elevators/chip_s6");
-		public static final Item skyliftchip = new EvChipItem("ev_chip_skylift","leafia/elevators/chip_skylift");
-		public static final Item s6floor = new EvStyleItem("ev_s6floor");
-		public static final Item s6ceiling = new EvStyleItem("ev_s6ceiling");
-		public static final Item s6door = new EvStyleItem("ev_s6door");
-		public static final Item s6wall = new EvStyleItem("ev_s6wall");
-		public static final Item s6window = new EvStyleItem("ev_s6window");
-		public static final Item skyliftdoor = new EvStyleItem("ev_skyliftdoor");
+		public static final Item s6chip = new EvChipItem("ev_chip_s6","leafia/elevators/chip_s6") {
+			@Override
+			@SideOnly(Side.CLIENT)
+			public void addInformation(ItemStack stack,@Nullable World worldIn,List<String> tooltip,ITooltipFlag flagIn) {
+				tooltip.addAll(Arrays.asList(I18nUtil.resolveKey("item.ev_chip_s6.desc").split("\\$")));
+				super.addInformation(stack,worldIn,tooltip,flagIn);
+			}
+		};
+		public static final Item skyliftchip = new EvChipItem("ev_chip_skylift","leafia/elevators/chip_skylift") {
+			@Override
+			@SideOnly(Side.CLIENT)
+			public void addInformation(ItemStack stack,@Nullable World worldIn,List<String> tooltip,ITooltipFlag flagIn) {
+				tooltip.addAll(Arrays.asList(I18nUtil.resolveKey("item.ev_chip_skylift.desc").split("\\$")));
+				super.addInformation(stack,worldIn,tooltip,flagIn);
+			}
+		};
+		public static final Item s6floor = new EvStyleItem("ev_s6floor",StyleType.FLOOR);
+		public static final Item s6ceiling = new EvStyleItem("ev_s6ceiling",StyleType.CEILING);
+		public static final Item s6door = new EvStyleItem("ev_s6door",StyleType.WALL);
+		public static final Item s6wall = new EvStyleItem("ev_s6wall",StyleType.WALL);
+		public static final Item s6window = new EvStyleItem("ev_s6window",StyleType.WALL);
+		public static final Item skyliftdoor = new EvStyleItem("ev_skyliftdoor",StyleType.WALL);
 	}
 
 	public static final Item ev_spawn = new EvSpawnItem("ev_spawn");

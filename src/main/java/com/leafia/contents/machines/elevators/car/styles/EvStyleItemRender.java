@@ -4,6 +4,7 @@ import com.hbm.render.item.TEISRBase;
 import com.leafia.contents.machines.elevators.car.ElevatorRender;
 import com.leafia.contents.machines.elevators.car.ElevatorRender.S6;
 import com.leafia.contents.machines.elevators.car.ElevatorRender.Skylift;
+import com.leafia.contents.machines.elevators.car.styles.EvStyleItem.StyleType;
 import com.leafia.dev.items.LeafiaGripOffsetHelper;
 import com.leafia.transformer.LeafiaGls;
 import net.minecraft.client.Minecraft;
@@ -76,9 +77,9 @@ public class EvStyleItemRender extends TEISRBase {
 		if (item0 instanceof EvStyleItem) {
 			EvStyleItem item = (EvStyleItem)item0;
 			String style = item.getStyleId();
-			if (style.contains("floor"))
+			if (item.type == StyleType.FLOOR)
 				offsetFloor.apply(type);
-			else if (style.contains("ceiling"))
+			else if (item.type == StyleType.CEILING)
 				offsetCeiling.apply(type);
 			else
 				offsetWall.apply(type);

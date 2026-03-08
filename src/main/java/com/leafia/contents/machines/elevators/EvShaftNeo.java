@@ -1,5 +1,6 @@
 package com.leafia.contents.machines.elevators;
 
+import com.hbm.main.MainRegistry;
 import com.leafia.dev.blocks.blockbase.AddonBlockBase;
 import com.leafia.dev.math.FiaBB;
 import com.leafia.dev.math.FiaMatrix;
@@ -25,6 +26,7 @@ public class EvShaftNeo extends AddonBlockBase {
 	public EvShaftNeo(Material m,String s) {
 		super(m,s);
 		setDefaultState(getDefaultState().withProperty(BlockDirectional.FACING,EnumFacing.NORTH));
+		setCreativeTab(MainRegistry.machineTab);
 	}
 	@Override
 	protected BlockStateContainer createBlockState() {

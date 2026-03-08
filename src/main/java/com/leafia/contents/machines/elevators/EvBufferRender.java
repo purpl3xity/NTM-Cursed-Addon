@@ -1,6 +1,7 @@
 package com.leafia.contents.machines.elevators;
 
 import com.hbm.render.loader.WaveFrontObjectVAO;
+import com.leafia.dev.LeafiaItemRenderer;
 import com.leafia.transformer.LeafiaGls;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -14,6 +15,24 @@ public class EvBufferRender extends TileEntitySpecialRenderer<EvBufferTE> {
 	static WaveFrontObjectVAO mdl = model("buffer");
 	static ResourceLocation tex = resource("buffer");
 	static double globalScale = 6/8.375;
+	public static class EvBufferItemRender extends LeafiaItemRenderer {
+		@Override
+		protected double _sizeReference() {
+			return 11.2;
+		}
+		@Override
+		protected double _itemYoffset() {
+			return -0.22;
+		}
+		@Override
+		protected ResourceLocation __getTexture() {
+			return tex;
+		}
+		@Override
+		protected WaveFrontObjectVAO __getModel() {
+			return mdl;
+		}
+	}
 	@Override
 	public void render(EvBufferTE te,double x,double y,double z,float partialTicks,int destroyStage,float alpha) {
 		LeafiaGls.pushMatrix();

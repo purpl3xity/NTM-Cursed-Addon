@@ -3,13 +3,12 @@ package com.leafia.init.recipes;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.inventory.OreDictManager;
 import com.hbm.inventory.OreDictManager.DictFrame;
-import com.hbm.inventory.RecipesCommon;
-import com.hbm.inventory.RecipesCommon.OreDictStack;
 import com.hbm.inventory.material.Mats;
 import com.hbm.items.ItemEnums.EnumCircuitType;
 import com.hbm.items.ModItems;
 import com.hbm.items.machine.ItemBatteryPack.EnumBatteryPack;
 import com.leafia.contents.AddonBlocks;
+import com.leafia.contents.AddonBlocks.Elevators;
 import com.leafia.contents.AddonBlocks.LetterSigns;
 import com.leafia.contents.AddonBlocks.PWR;
 import com.leafia.contents.AddonItems;
@@ -125,6 +124,10 @@ public class AddonCraftingRecipes {
 
 		addRecipeAuto(new ItemStack(AddonBlocks.rbmk_rod_realersim, 1), "ZCZ", "ZRZ", "ZCZ", 'C', STEEL.shell(), 'R', ModBlocks.rbmk_blank, 'Z', ZR.nugget() );
 		addRecipeAuto(new ItemStack(AddonBlocks.rbmk_rod_realersim_mod, 1), "BGB", "GRG", "BGB", 'G', GRAPHITE.block(), 'R', AddonBlocks.rbmk_rod_realersim, 'B', GRAPHITE.ingot() );
+
+		addRecipeAuto(new ItemStack(Elevators.shaft),"I I",'I',new ItemStack(ModBlocks.steel_beam));
+		addRecipeAuto(new ItemStack(AddonItems.ev_spawn),"GGG","ICI","GGG",'C',ANY_SMOKELESS.dust(),'G',new ItemStack(ModBlocks.steel_grate),'I',new ItemStack(ModBlocks.steel_beam));
+		addRecipeAuto(new ItemStack(Elevators.shaft),"IBI","IBI","IBI",'B',STEEL.block(),'I',new ItemStack(ModBlocks.steel_beam));
 
 		hack.getRegistry().register(new PWRDebrisCrafting().setRegistryName(new ResourceLocation("leafia", "lwr_debris_crafting_handler")));
 	}

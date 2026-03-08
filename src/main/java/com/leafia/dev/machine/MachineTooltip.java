@@ -252,6 +252,10 @@ public class MachineTooltip {
 		tooltip.add(TextFormatting.DARK_RED+"< Unfinished / Extremely buggy >");
 	}
 
+	public static void addBeta(List<String> tooltip) {
+		tooltip.add(TextFormatting.LIGHT_PURPLE+"< Beta Feature >");
+	}
+
 	public static void addUpdate(List<String> tooltip,String... oldKeys) {
 		String buffer = I18nUtil.resolveKey(oldKeys[0]);
 		for (int i = 1; i < oldKeys.length; i++) {

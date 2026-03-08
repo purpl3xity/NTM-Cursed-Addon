@@ -1,6 +1,7 @@
 package com.leafia.contents.machines.elevators;
 
 import com.hbm.blocks.BlockDummyable;
+import com.hbm.main.MainRegistry;
 import com.leafia.dev.blocks.blockbase.AddonBlockDummyable;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -15,6 +16,7 @@ import javax.annotation.Nullable;
 public class EvBuffer extends AddonBlockDummyable {
 	public EvBuffer(Material materialIn,String s) {
 		super(materialIn,s);
+		setCreativeTab(MainRegistry.machineTab);
 	}
 
 	@Override

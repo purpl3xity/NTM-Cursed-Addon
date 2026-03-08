@@ -1,11 +1,14 @@
 package com.leafia.contents.machines.heat.hpboiler;
 
+import com.hbm.blocks.ITooltipProvider;
 import com.hbm.lib.ForgeDirection;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.leafia.dev.blocks.blockbase.AddonBlockDummyable;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -13,9 +16,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class HPBoilerBlock extends AddonBlockDummyable {
+import java.util.List;
+
+public class HPBoilerBlock extends AddonBlockDummyable implements ITooltipProvider {
 	public HPBoilerBlock(Material materialIn,String s) {
 		super(materialIn,s);
+	}
+	@Override
+	public void addInformation(ItemStack stack,@Nullable World worldIn,List<String> tooltip,ITooltipFlag flagIn) {
+		addStandardInfo(tooltip);
+		super.addInformation(stack,worldIn,tooltip,flagIn);
 	}
 	@Override
 	public int[] getDimensions() {

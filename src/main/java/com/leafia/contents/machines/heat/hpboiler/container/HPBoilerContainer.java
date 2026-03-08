@@ -16,20 +16,23 @@ public class HPBoilerContainer extends LeafiaItemTransferable {
 
 	public HPBoilerContainer(InventoryPlayer invPlayer,HPBoilerTE entity) {
 		this.entity = entity;
-		this.addSlotToContainer(new SlotItemHandler(entity.inventory, 0, 8, 35-18));
-		this.addSlotToContainer(new SlotItemHandler(entity.inventory, 1, 80, 53));
+		this.addSlotToContainer(new SlotItemHandler(entity.inventory, 0, 26, 17));
+		this.addSlotToContainer(new SlotItemHandler(entity.inventory, 1, 26, 53));
+		this.addSlotToContainer(new SlotItemHandler(entity.inventory, 2, 134, 17));
+		this.addSlotToContainer(new SlotItemHandler(entity.inventory, 3, 134, 53));
+		this.addSlotToContainer(new SlotItemHandler(entity.inventory, 4, 71, 53));
 
 		for(int i = 0; i < 3; i++)
 		{
 			for(int j = 0; j < 9; j++)
 			{
-				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 103 + i * 18));
 			}
 		}
 
 		for(int i = 0; i < 9; i++)
 		{
-			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 161));
 		}
 	}
 	

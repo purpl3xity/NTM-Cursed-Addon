@@ -14,6 +14,7 @@ import com.leafia.contents.machines.elevators.EvShaftNeo;
 import com.leafia.contents.machines.elevators.car.chips.EvChipBase;
 import com.leafia.contents.machines.elevators.car.chips.EvChipItem;
 import com.leafia.contents.machines.elevators.car.styles.EvStyleItem;
+import com.leafia.contents.machines.elevators.car.styles.EvStyleItem.StyleType;
 import com.leafia.contents.machines.elevators.car.styles.EvWallBase;
 import com.leafia.contents.machines.elevators.car.styles.panels.ElevatorPanelBase;
 import com.leafia.contents.machines.elevators.car.styles.panels.EvGenericDoorBase;
@@ -60,6 +61,7 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemStackHandler;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -821,6 +823,22 @@ public class ElevatorEntity extends Entity implements IEntityMultiPart, IEntityC
 				super.onContentsChanged(slot);
 				LeafiaDebug.debugLog(world,"Slot "+slot+" changed!");
 				shouldUpdateItems = true;
+			}
+			@Override
+			public boolean isItemValid(int slot,@NotNull ItemStack stack) {
+				if (slot == 0) {
+					return stack.getItem() instanceof EvChipItem;
+				} else if (slot >= 1 && slot < 7) {
+					if (stack.getItem() instanceof EvStyleItem style) {
+						if (slot == 1)
+							return style.type == StyleType.FLOOR;
+						else if (slot == 2)
+							return style.type == StyleType.CEILING;
+						else
+							return style.type == StyleType.WALL;
+					} else return false;
+				}
+				return true;
 			}
 		};
 		updateHitSurfaces();

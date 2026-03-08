@@ -1,8 +1,11 @@
 package com.leafia.contents.machines.elevators;
 
+import com.hbm.render.NTMRenderHelper;
 import com.hbm.render.loader.WaveFrontObjectVAO;
+import com.leafia.dev.LeafiaItemRenderer;
 import com.leafia.transformer.LeafiaGls;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -14,6 +17,37 @@ public class EvPulleyRender extends TileEntitySpecialRenderer<EvPulleyTE> {
 	static ResourceLocation plug = resource("elevator_cable");
 	static ResourceLocation motor = resource("motor");
 	static ResourceLocation rope = resource("rope");
+	public static class EvPulleyItemRender extends LeafiaItemRenderer {
+		@Override
+		protected double _sizeReference() {
+			return 11;
+		}
+		@Override
+		protected double _itemYoffset() {
+			return 0.1;
+		}
+		@Override
+		protected ResourceLocation __getTexture() {
+			return null;
+		}
+		@Override
+		protected WaveFrontObjectVAO __getModel() {
+			return mdl;
+		}
+		@Override
+		public void renderCommon(ItemStack stack) {
+			NTMRenderHelper.bindTexture(concrete);
+			mdl.renderPart("Floor");
+			NTMRenderHelper.bindTexture(plug);
+			mdl.renderPart("Inlet");
+
+			NTMRenderHelper.bindTexture(motor);
+			mdl.renderPart("Motor");
+			NTMRenderHelper.bindTexture(support);
+			mdl.renderPart("Support");
+			mdl.renderPart("Pulley");
+		}
+	}
 	@Override
 	public void render(EvPulleyTE te,double x,double y,double z,float partialTicks,int destroyStage,float alpha) {
 		LeafiaGls.pushMatrix();

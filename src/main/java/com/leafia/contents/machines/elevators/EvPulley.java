@@ -2,6 +2,7 @@ package com.leafia.contents.machines.elevators;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.lib.ForgeDirection;
+import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.leafia.dev.blocks.blockbase.AddonBlockDummyable;
 import net.minecraft.block.material.Material;
@@ -14,6 +15,7 @@ import javax.annotation.Nullable;
 public class EvPulley extends AddonBlockDummyable {
 	public EvPulley(Material materialIn,String s) {
 		super(materialIn,s);
+		setCreativeTab(MainRegistry.machineTab);
 	}
 	@Override
 	public int[] getDimensions() {

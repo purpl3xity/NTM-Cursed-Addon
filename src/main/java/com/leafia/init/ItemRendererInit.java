@@ -5,6 +5,7 @@ import com.hbm.items.RBMKItemRenderers;
 import com.hbm.render.item.TEISRBase;
 import com.hbm.render.tileentity.IItemRendererProvider;
 import com.leafia.contents.AddonBlocks;
+import com.leafia.contents.AddonBlocks.Elevators;
 import com.leafia.contents.AddonBlocks.LetterSigns;
 import com.leafia.contents.AddonItems;
 import com.leafia.contents.AddonItems.ElevatorStyles;
@@ -13,10 +14,17 @@ import com.leafia.contents.building.broof.BroofRender.BroofItemRender;
 import com.leafia.contents.building.light.LightRender.LightItemRender;
 import com.leafia.contents.building.sign.SignRender.SignItemRender;
 import com.leafia.contents.gear.advisor.AdvisorRender;
+import com.leafia.contents.machines.elevators.EvBufferRender;
+import com.leafia.contents.machines.elevators.EvBufferRender.EvBufferItemRender;
+import com.leafia.contents.machines.elevators.EvPulleyRender;
+import com.leafia.contents.machines.elevators.EvPulleyRender.EvPulleyItemRender;
 import com.leafia.contents.machines.elevators.car.styles.EvStyleItem;
 import com.leafia.contents.machines.elevators.car.styles.EvStyleItemRender;
+import com.leafia.contents.machines.elevators.floors.EvFloorRender.EvFloorItemRender;
 import com.leafia.contents.machines.elevators.items.EvSpawnItemRender;
 import com.leafia.contents.machines.elevators.items.WeightSpawnItemRender;
+import com.leafia.contents.machines.heat.hpboiler.HPBoilerRender;
+import com.leafia.contents.machines.heat.hpboiler.HPBoilerRender.HPBoilerItemRender;
 import com.leafia.contents.machines.heat.rtheater.HeaterRTGRender;
 import com.leafia.contents.machines.misc.heatex.CoolantHeatexRender;
 import com.leafia.contents.machines.powercores.ams.base.AMSBaseRender.AMSBaseItemRender;
@@ -99,6 +107,14 @@ public class ItemRendererInit {
 
 		register(AddonBlocks.rbmk_rod_realersim,RBMKItemRenderers.RBMK_ROD);
 		register(AddonBlocks.rbmk_rod_realersim_mod,RBMKItemRenderers.RBMK_ROD);
+
+		EvFloorItemRender floorRender = new EvFloorItemRender();
+		register(Elevators.s6_floor,floorRender);
+		register(Elevators.skylift_floor,floorRender);
+		register(Elevators.buffer,new EvBufferItemRender());
+		register(Elevators.pulley,new EvPulleyItemRender());
+
+		register(AddonBlocks.hp_boiler,new HPBoilerItemRender());
 
 		/*fix(AddonItems.ams_focus_blank);
 		fix(AddonItems.ams_focus_booster);

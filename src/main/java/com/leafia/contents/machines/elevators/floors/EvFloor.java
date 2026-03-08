@@ -7,6 +7,7 @@ import com.hbm.blocks.network.SimpleUnlistedProperty;
 import com.hbm.items.IDynamicModels;
 import com.hbm.items.tool.ItemTooling;
 import com.hbm.lib.ForgeDirection;
+import com.hbm.main.MainRegistry;
 import com.leafia.contents.machines.elevators.EvPulleyTE;
 import com.leafia.contents.machines.elevators.floors.model.EvFloorBakedModel;
 import com.leafia.dev.LeafiaDebug;
@@ -48,6 +49,7 @@ public class EvFloor extends AddonBlockDummyable implements IDynamicModels {
 	public EvFloor(Material materialIn,String s) {
 		super(materialIn,s);
 		IDynamicModels.INSTANCES.add(this);
+		setCreativeTab(MainRegistry.machineTab);
 	}
 
 	@Nullable

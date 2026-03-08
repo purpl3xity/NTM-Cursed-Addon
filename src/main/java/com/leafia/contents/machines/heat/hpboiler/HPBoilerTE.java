@@ -57,19 +57,19 @@ public class HPBoilerTE extends TileEntityMachineBase implements ITickable, Leaf
 	int inAmt;
 	int outAmt;
 	double efficiency;
-	int heatReq;
+	public int heatReq;
 
 	public HPBoilerTE() {
 		super(5,true,false);
-		setFluid(Fluids.WATER);
+		setFluid(Fluids.WATER,compression);
 	}
-	public void setFluid(FluidType fluid) {
+	public void setFluid(FluidType fluid,int compression) {
 		BoilData dat = getBoiledFluid(fluid,compression);
 		if (dat.outType != Fluids.NONE) {
 			if (input == null || output == null || input.getTankType() != fluid || output.getTankType() != dat.outType) {
 				input = new FluidTankNTM(fluid,64000*dat.inAmt);
 				output = new FluidTankNTM(dat.outType,64000*dat.outAmt);
-				compression = dat.compression;
+				this.compression = dat.compression;
 				inAmt = dat.inAmt;
 				outAmt = dat.outAmt;
 				efficiency = dat.efficiency;
@@ -85,7 +85,7 @@ public class HPBoilerTE extends TileEntityMachineBase implements ITickable, Leaf
 			output.unloadTank(2,3,inventory);
 			ItemStack stack = inventory.getStackInSlot(4);
 			if (stack.getItem() instanceof IItemFluidIdentifier identifier)
-				setFluid(identifier.getType(world,pos.getX(),pos.getY(),pos.getZ(),stack));
+				setFluid(identifier.getType(world,pos.getX(),pos.getY(),pos.getZ(),stack),compression);
 			int light = this.world.getLightFor(EnumSkyBlock.SKY, pos);
 			if (light > 7 && TomSaveData.forWorld(world).fire > 1e-5) {
 				this.heat += (int) ((maxHeat - heat) * 0.000005D); // constantly heat up 0.0005% of the remaining heat buffer for
@@ -103,7 +103,34 @@ public class HPBoilerTE extends TileEntityMachineBase implements ITickable, Leaf
 			LeafiaPacket._start(this)
 					.__write(0,tankData)
 					.__write(1,compression)
+					.__write(2,heat)
+					.__write(3,isOn)
+					.__write(4,heatReq)
 					.__sendToAffectedClients();
+		} else {
+			if (this.isOn) audioTime = 20;
+
+			if (audioTime > 0) {
+
+				audioTime--;
+
+				if (audio == null) {
+					audio = createAudioLoop();
+					audio.startSound();
+				} else if (!audio.isPlaying()) {
+					audio = rebootAudio(audio);
+				}
+
+				audio.updateVolume(getVolume(1F));
+				audio.keepAlive();
+
+			} else {
+
+				if (audio != null) {
+					audio.stopSound();
+					audio = null;
+				}
+			}
 		}
 	}
 	protected DirPos[] getConPos() {
@@ -116,7 +143,7 @@ public class HPBoilerTE extends TileEntityMachineBase implements ITickable, Leaf
 	public void tryConvert() {
 		int inputOps = input.getFill() / inAmt;
 		int outputOps = (output.getMaxFill() - output.getFill()) / outAmt;
-		int heatOps = this.heat / heatReq;
+		int heatOps = (int)(this.heat * efficiency) / heatReq;
 
 		int ops = Math.min(inputOps, Math.min(outputOps, heatOps));
 
@@ -200,9 +227,11 @@ public class HPBoilerTE extends TileEntityMachineBase implements ITickable, Leaf
             outType = cur = step.typeProduced;
         }
 
-        if (comp == 0) {
-            return new BoilData(outType, 0, 0, 0, efficiency, 0);
+        if (comp <= 0) {
+            return new BoilData(outType, 0, 0, 0, 1, 0);
         }
+
+	    heatReq = (int)(heatReq/Math.pow(1.5,comp-1)); // apply bonus
 
         // mlbv: this part shall be removed if the desired behavior is to simulate three chained boilers with each
         // using gcd internally
@@ -213,7 +242,7 @@ public class HPBoilerTE extends TileEntityMachineBase implements ITickable, Leaf
             heatReq /= div;
         }
 
-        return new BoilData(outType, comp, inAmt, outAmt, efficiency, heatReq);
+        return new BoilData(outType, comp, inAmt, outAmt, 1, heatReq);
     }
 
 	protected void tryPullHeat() {
@@ -282,15 +311,20 @@ public class HPBoilerTE extends TileEntityMachineBase implements ITickable, Leaf
 			output.readFromNBT(tag,"output");
 		} else if (key == 1)
 			compression = (int)value;
+		else if (key == 2)
+			heat = (int)value;
+		else if (key == 3)
+			isOn = (boolean)value;
+		else if (key == 4)
+			heatReq = (int)value;
 	}
 	@Override
 	public void onReceivePacketServer(byte key,Object value,EntityPlayer plr) {
-
+		if (key == 0)
+			setFluid(input.getTankType(),(int)value);
 	}
 	@Override
-	public void onPlayerValidate(EntityPlayer plr) {
-
-	}
+	public void onPlayerValidate(EntityPlayer plr) { }
 	@Override
 	public @NotNull NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		compound.setString("fluid",input.getTankType().getName());
@@ -303,7 +337,7 @@ public class HPBoilerTE extends TileEntityMachineBase implements ITickable, Leaf
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		compression = compound.getInteger("compression");
-		setFluid(Fluids.fromName(compound.getString("fluid")));
+		setFluid(Fluids.fromName(compound.getString("fluid")),compression);
 		input.readFromNBT(compound,"input");
 		output.readFromNBT(compound,"output");
 	}

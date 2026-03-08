@@ -1,6 +1,7 @@
 package com.leafia.contents.machines.heat.hpboiler;
 
 import com.hbm.render.loader.WaveFrontObjectVAO;
+import com.leafia.dev.LeafiaItemRenderer;
 import com.leafia.transformer.LeafiaGls;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -12,6 +13,24 @@ import static com.leafia.init.ResourceInit.getVAO;
 public class HPBoilerRender extends TileEntitySpecialRenderer<HPBoilerTE> {
 	static WaveFrontObjectVAO mdl = getVAO(getIntegrated("ngf_hpboiler/boiler.obj"));
 	static ResourceLocation tex = getIntegrated("ngf_hpboiler/boiler.png");
+	public static class HPBoilerItemRender extends LeafiaItemRenderer {
+		@Override
+		protected double _sizeReference() {
+			return 6.8;
+		}
+		@Override
+		protected double _itemYoffset() {
+			return -0.12;
+		}
+		@Override
+		protected ResourceLocation __getTexture() {
+			return tex;
+		}
+		@Override
+		protected WaveFrontObjectVAO __getModel() {
+			return mdl;
+		}
+	}
 	@Override
 	public void render(HPBoilerTE te,double x,double y,double z,float partialTicks,int destroyStage,float alpha) {
 		LeafiaGls.pushMatrix();

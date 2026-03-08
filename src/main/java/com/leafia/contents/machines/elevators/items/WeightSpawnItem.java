@@ -28,7 +28,7 @@ import java.util.List;
 public class WeightSpawnItem extends AddonItemBase {
 	@Override
 	public void addInformation(ItemStack stack,@Nullable World worldIn,List<String> tooltip,ITooltipFlag flagIn) {
-		MachineTooltip.addWIP(tooltip);
+		MachineTooltip.addBeta(tooltip);
 		super.addInformation(stack,worldIn,tooltip,flagIn);
 	}
 	public WeightSpawnItem(String s) {

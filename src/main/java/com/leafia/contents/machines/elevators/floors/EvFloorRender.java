@@ -1,20 +1,59 @@
 package com.leafia.contents.machines.elevators.floors;
 
+import com.hbm.render.NTMRenderHelper;
 import com.hbm.render.loader.WaveFrontObjectVAO;
 import com.leafia.contents.AddonBlocks;
 import com.leafia.contents.machines.elevators.car.ElevatorRender.S6;
 import com.leafia.contents.machines.elevators.car.ElevatorRender.Skylift;
 import com.leafia.dev.LeafiaBrush;
+import com.leafia.dev.LeafiaItemRenderer;
 import com.leafia.transformer.LeafiaGls;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import com.leafia.contents.AddonBlocks.Elevators;
 import static com.leafia.contents.machines.elevators.car.ElevatorRender.model;
 
 public class EvFloorRender extends TileEntitySpecialRenderer<EvFloorTE> {
-	WaveFrontObjectVAO mdl = model("floor_walled");
+	static WaveFrontObjectVAO mdl = model("floor_walled");
+	static ResourceLocation steel = new ResourceLocation("hbm","textures/blocks/block_steel.png");
+	public static class EvFloorItemRender extends LeafiaItemRenderer {
+		@Override
+		protected double _sizeReference() {
+			return 9.3;
+		}
+		@Override
+		protected double _itemYoffset() {
+			return -0.15;
+		}
+		@Override
+		protected ResourceLocation __getTexture() {
+			return null;
+		}
+		@Override
+		protected WaveFrontObjectVAO __getModel() {
+			return mdl;
+		}
+		@Override
+		public void renderCommon(ItemStack stack) {
+			NTMRenderHelper.bindTexture(steel);
+			mdl.renderPart("Wall");
+			Block bluk = ((ItemBlock)(stack.getItem())).getBlock();
+			if (bluk == Elevators.s6_floor)
+				NTMRenderHelper.bindTexture(S6.door);
+			if (bluk == Elevators.skylift_floor)
+				NTMRenderHelper.bindTexture(Skylift.frame);
+			mdl.renderPart("Frames");
+			if (bluk == Elevators.skylift_floor)
+				NTMRenderHelper.bindTexture(Skylift.door);
+			mdl.renderPart("DoorL");
+			mdl.renderPart("DoorR");
+		}
+	}
 	@Override
 	public void render(EvFloorTE te,double x,double y,double z,float partialTicks,int destroyStage,float alpha) {
 		LeafiaGls.pushMatrix();

@@ -6,8 +6,11 @@ import com.leafia.dev.items.itembase.AddonItemBase;
 
 public class EvStyleItem extends AddonItemBase {
 	final String style;
-	public EvStyleItem(String s) {
+	public final StyleType type;
+	public enum StyleType { FLOOR,CEILING,WALL }
+	public EvStyleItem(String s,StyleType type) {
 		super(s);
+		this.type = type;
 		ElevatorStyles.styleItems.add(this);
 		style = s.substring(3);
 		this.setMaxStackSize(1);

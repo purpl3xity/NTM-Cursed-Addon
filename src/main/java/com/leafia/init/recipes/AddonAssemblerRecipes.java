@@ -13,10 +13,12 @@ import com.hbm.inventory.recipes.loader.GenericRecipe;
 import com.hbm.items.ItemEnums.EnumCircuitType;
 import com.hbm.items.ModItems;
 import com.leafia.contents.AddonBlocks;
+import com.leafia.contents.AddonBlocks.Elevators;
 import com.leafia.contents.AddonBlocks.LetterSigns;
 import com.leafia.contents.AddonBlocks.PWR;
 import com.leafia.contents.AddonFluids;
 import com.leafia.contents.AddonItems;
+import com.leafia.contents.AddonItems.ElevatorStyles;
 import com.leafia.contents.control.battery.AddonEnumBatteryPack;
 import com.llib.exceptions.LeafiaDevFlaw;
 import net.minecraft.block.Block;
@@ -163,6 +165,79 @@ public class AddonAssemblerRecipes {
 		makeRecipe("ass.leafia.supercooler",new ComparableStack(AddonItems.supercooler, 1), new AStack[] { new ComparableStack(ModItems.coil_copper_torus, 3), new OreDictStack(STEEL.ingot(), 3), new OreDictStack(TI.plate(), 6), new ComparableStack(ModItems.plate_polymer, 12), new OreDictStack(BIGMT.ingot(), 2), new ComparableStack(PWR.exchanger,32), new ComparableStack(ModBlocks.watz_cooler,16) }, 100);
 		makeRecipe("ass.leafia.panel",new ComparableStack(ModBlocks.control_panel_custom, 1), new AStack[]{new ComparableStack(ModItems.circuit,1,EnumCircuitType.BASIC), new OreDictStack(STEEL.block(), 1), new ComparableStack(ModItems.wire_fine, 24, Mats.MAT_COPPER.id)}, 100);
 		makeRecipe("ass.leafia.customnukemissile",new ComparableStack(AddonItems.missile_customnuke),new AStack[]{new ComparableStack(ModItems.missile_assembly),new ComparableStack(ModItems.circuit,8,EnumCircuitType.CONTROLLER_ADVANCED.ordinal()),new OreDictStack(KEY_GRAY,4)},100);
+		{
+			INSTANCE.register(new GenericRecipe("ass.leafia.elevator_floor_s6").setup(40,50)
+					.outputItems(new ItemStack(Elevators.s6_floor))
+					.inputItems(
+							new OreDictStack(STEEL.plateWelded(),6),
+							new OreDictStack(STEEL.plate(),2),
+							new ComparableStack(ModItems.circuit,1,EnumCircuitType.BASIC)
+					)
+			);
+			INSTANCE.register(new GenericRecipe("ass.leafia.elevator_floor_skylift").setup(40,50)
+					.outputItems(new ItemStack(Elevators.skylift_floor))
+					.inputItems(
+							new OreDictStack(STEEL.plateWelded(),6),
+							new ComparableStack(ModItems.circuit,1,EnumCircuitType.BASIC)
+					)
+			);
+		}
+		INSTANCE.register(new GenericRecipe("ass.leafia.elevator_pulley").setup(100,50)
+				.outputItems(new ItemStack(Elevators.pulley))
+				.inputItems(
+						new OreDictStack(ANY_CONCRETE.any(),2),
+						new OreDictStack(STEEL.ingot(),3),
+						new ComparableStack(ModItems.motor,1),
+						new ComparableStack(ModItems.circuit,1,EnumCircuitType.BASIC)
+				)
+		);
+		INSTANCE.register(new GenericRecipe("ass.leafia.elevator_buffer").setup(100,50)
+				.outputItems(new ItemStack(Elevators.buffer))
+				.inputItems(
+						new OreDictStack(STEEL.ingot(),14)
+				)
+		);
+		{
+			INSTANCE.register(new GenericRecipe("ass.leafia.ev_s6wall").setup(40,50)
+					.outputItems(new ItemStack(ElevatorStyles.s6wall))
+					.inputItems(
+							new OreDictStack(STEEL.plateWelded(),2)
+					)
+			);
+			INSTANCE.register(new GenericRecipe("ass.leafia.ev_s6floor").setup(40,50)
+					.outputItems(new ItemStack(ElevatorStyles.s6floor))
+					.inputItems(
+							new OreDictStack(STEEL.plateWelded(),2)
+					)
+			);
+			INSTANCE.register(new GenericRecipe("ass.leafia.ev_s6ceiling").setup(40,50)
+					.outputItems(new ItemStack(ElevatorStyles.s6ceiling))
+					.inputItems(
+							new OreDictStack(STEEL.plateWelded(),2)
+					)
+			);
+			INSTANCE.register(new GenericRecipe("ass.leafia.ev_s6window").setup(40,50)
+					.outputItems(new ItemStack(ElevatorStyles.s6window))
+					.inputItems(
+							new OreDictStack(STEEL.ingot()),
+							new ComparableStack(Blocks.GLASS_PANE,4)
+					)
+			);
+			INSTANCE.register(new GenericRecipe("ass.leafia.ev_s6door").setup(40,50)
+					.outputItems(new ItemStack(ElevatorStyles.s6door))
+					.inputItems(
+							new OreDictStack(STEEL.plateWelded(),1),
+							new OreDictStack(STEEL.plate(),2)
+					)
+			);
+			INSTANCE.register(new GenericRecipe("ass.leafia.ev_skyliftdoor").setup(40,50)
+					.outputItems(new ItemStack(ElevatorStyles.skyliftdoor))
+					.inputItems(
+							new OreDictStack(STEEL.plateWelded(),1),
+							new OreDictStack(STEEL.plate(),2)
+					)
+			);
+		}
 	}
 	public static void makeRecipe(String s,ComparableStack out, AStack[] in, int duration) {
 		INSTANCE.register(new GenericRecipe(s).setup(duration,100)

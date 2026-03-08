@@ -35,7 +35,7 @@ public class EvSpawnItem extends AddonItemBase {
 	}
 	@Override
 	public void addInformation(ItemStack stack,@Nullable World worldIn,List<String> tooltip,ITooltipFlag flagIn) {
-		MachineTooltip.addWIP(tooltip);
+		MachineTooltip.addBeta(tooltip);
 		tooltip.addAll(Arrays.asList(I18nUtil.resolveKey("item.ev_spawn.desc").split("\\$")));
 		super.addInformation(stack,worldIn,tooltip,flagIn);
 	}

@@ -1,5 +1,6 @@
 package com.leafia.contents.machines.elevators.car;
 
+import com.hbm.main.MainRegistry;
 import com.leafia.dev.blocks.blockbase.AddonBlockBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -17,6 +18,7 @@ public class ElevatorLight extends AddonBlockBase {
 	public ElevatorLight(Material m,String s) {
 		super(m,s);
 		setLightLevel(1);
+		setCreativeTab(null);
 	}
 
 	@Override
