@@ -1,5 +1,6 @@
 package com.leafia.contents.machines.heat.hpboiler;
 
+import com.google.common.math.IntMath;
 import com.hbm.api.fluidmk2.IFluidStandardReceiverMK2;
 import com.hbm.api.fluidmk2.IFluidStandardSenderMK2;
 import com.hbm.api.tile.IHeatSource;
@@ -159,47 +160,62 @@ public class HPBoilerTE extends TileEntityMachineBase implements ITickable, Leaf
 			this.heatReq = heatReq;
 		}
 	}
-	public BoilData getBoiledFluid(FluidType fluid,int compression) {
-		FluidType cur = fluid;
-		FluidType outType = Fluids.NONE;
-		int comp = 0;
-		int inAmt = 0;
-		int outAmt = 0;
-		double efficiency = 1;
-		int heatReq = 0;
-		for (int i = 0; i < compression; i++) {
-			FT_Heatable trait = cur.getTrait(FT_Heatable.class);
-			if (trait == null || trait.getEfficiency(HeatingType.BOILER) <= 0) break;
-			FT_Heatable.HeatingStep step = trait.getFirstStep();
-			if (step == null || step.typeProduced == null) break;
-			comp++;
-			efficiency *= trait.getEfficiency(HeatingType.BOILER);
-			if (i == 0) {
-				heatReq = step.heatReq;
-				inAmt = step.amountReq;
-				outAmt = step.amountProduced;
-			} else {
-				heatReq += outAmt*step.heatReq;
-				inAmt *= step.amountReq;
-				outAmt *= step.amountProduced;
-			}
-			cur = step.typeProduced;
-			outType = cur;
-		}
-		int div = gcd(inAmt,outAmt);
-		inAmt /= div;
-		outAmt /= div;
-		heatReq /= div;
-		return new BoilData(outType,comp,inAmt,outAmt,efficiency,heatReq);
-	}
-	private static int gcd(int a, int b) {
-		while (b != 0) {
-			int t = a % b;
-			a = b;
-			b = t;
-		}
-		return a;
-	}
+
+    public BoilData getBoiledFluid(FluidType fluid, int compression) {
+        FluidType cur = fluid;
+        FluidType outType = Fluids.NONE;
+        int comp = 0;
+        int inAmt = 0;
+        int outAmt = 0;
+        double efficiency = 1.0;
+        int heatReq = 0;
+
+        for (int i = 0; i < compression; i++) {
+            FT_Heatable trait = cur.getTrait(FT_Heatable.class);
+            if (trait == null) break;
+
+            double stepEfficiency = trait.getEfficiency(HeatingType.BOILER);
+            if (stepEfficiency <= 0.0) break;
+
+            FT_Heatable.HeatingStep step = trait.getFirstStep();
+            if (step == null || step.typeProduced == null) break;
+
+            if (comp == 0) {
+                inAmt = step.amountReq;
+                outAmt = step.amountProduced;
+                heatReq = step.heatReq;
+            } else {
+                int prevOut = outAmt;
+                // mlbv: guava gcd is faster than hand-rolled one; use LongMath for long gcd.
+                int g = IntMath.gcd(prevOut, step.amountReq);
+                int prefixMul = step.amountReq / g; // how many times the existing fused cycles must run
+                int stepMul = prevOut / g; // how many times this new step must run
+                inAmt *= prefixMul;
+                outAmt = step.amountProduced * stepMul;
+                heatReq = heatReq * prefixMul + step.heatReq * stepMul;
+            }
+
+            comp++;
+            efficiency *= stepEfficiency;
+            outType = cur = step.typeProduced;
+        }
+
+        if (comp == 0) {
+            return new BoilData(outType, 0, 0, 0, efficiency, 0);
+        }
+
+        // mlbv: this part shall be removed if the desired behavior is to simulate three chained boilers with each
+        // using gcd internally
+        int div = IntMath.gcd(IntMath.gcd(inAmt, outAmt), heatReq);
+        if (div > 1) {
+            inAmt /= div;
+            outAmt /= div;
+            heatReq /= div;
+        }
+
+        return new BoilData(outType, comp, inAmt, outAmt, efficiency, heatReq);
+    }
+
 	protected void tryPullHeat() {
 		TileEntity con = world.getTileEntity(pos.down(1));
 		if (con instanceof IHeatSource source) {
