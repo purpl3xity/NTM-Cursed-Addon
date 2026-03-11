@@ -1,5 +1,6 @@
 package com.leafia.overwrite_contents.mixin.mod.hbm;
 
+import com.hbm.entity.projectile.EntityRBMKDebris.DebrisType;
 import com.hbm.items.machine.ItemRBMKRod;
 import com.hbm.tileentity.machine.rbmk.RBMKDials.RBMKKeys;
 import com.hbm.tileentity.machine.rbmk.TileEntityRBMKBase;
@@ -8,7 +9,9 @@ import com.leafia.overwrite_contents.interfaces.IMixinTileEntityRBMKBase;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import scala.tools.asm.Opcodes;
 
 @Mixin(value = TileEntityRBMKRod.class)
@@ -32,5 +35,13 @@ public abstract class MixinTileEntityRBMKRod extends TileEntityRBMKBase {
 		if (!(instance.inventory.getStackInSlot(0).getItem() instanceof ItemRBMKRod))
 			return false; // failsafe
 		return hasRod;
+	}
+	@Inject(method = "onMelt",at = @At(value = "HEAD"),require = 1,remap = false)
+	void leafia$onOnMelt(int reduce,CallbackInfo ci) {
+		if(this.isModerated()) {
+			int count = 2 + world.rand.nextInt(2);
+			for(int i = 0; i < count; i++)
+				spawnDebris(DebrisType.GRAPHITE);
+		}
 	}
 }

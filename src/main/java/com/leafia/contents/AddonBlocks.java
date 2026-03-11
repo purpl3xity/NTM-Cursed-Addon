@@ -4,6 +4,7 @@ import com.custom_hbm.contents.oilycoal.BlockCoalBurning;
 import com.custom_hbm.contents.oilycoal.BlockCoalOil;
 import com.hbm.blocks.ModBlocks;
 import com.hbm.blocks.ModSoundType;
+import com.hbm.blocks.ModSoundTypes;
 import com.hbm.lib.HBMSoundHandler;
 import com.hbm.main.MainRegistry;
 import com.hbm.render.block.BlockBakeFrame;
@@ -62,6 +63,7 @@ import com.leafia.contents.machines.reactors.pwr.blocks.wreckage.PWRWreckMetal;
 import com.leafia.contents.machines.reactors.pwr.blocks.wreckage.PWRWreckStone;
 import com.leafia.contents.machines.reactors.rbmk.realersim.RBMKRealerSimBlock;
 import com.leafia.contents.miscellanous.diverter.DiverterBlock;
+import com.leafia.contents.miscellanous.regex_filter.pneumatic.RegexFilterBlock;
 import com.leafia.contents.miscellanous.slop.SlopBlock;
 import com.leafia.contents.miscellanous.slop.SlopGlass;
 import com.leafia.contents.network.computers.audiocable.AudioCableBlock;
@@ -366,6 +368,8 @@ public class AddonBlocks {
 	public static final Block rbmk_rod_realersim_mod = new RBMKRealerSimBlock(true, "rbmk_rod_realersim_mod", "rbmk_element_realersim_mod").setHardness(5.0F).setResistance(100.0F).setCreativeTab(MainRegistry.machineTab);
 
 	public static final Block hp_boiler = new HPBoilerBlock(Material.IRON,"hp_boiler").setHardness(5.0F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
+
+	public static final Block regex_filter = new RegexFilterBlock(Material.IRON,"regex_filter").setSoundType(ModSoundTypes.pipe).setHardness(0.1F).setResistance(10.0F).setCreativeTab(MainRegistry.machineTab);
 
 	static {
 		if (Loader.isModLoaded("opencomputers")) {
