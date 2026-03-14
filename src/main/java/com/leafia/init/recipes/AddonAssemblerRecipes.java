@@ -121,11 +121,11 @@ public class AddonAssemblerRecipes {
 		INSTANCE.register(new GenericRecipe("ass.leafia.msr_heatex").setup(200,100)
 				.outputItems(new ItemStack(AddonBlocks.coolant_heatex))
 				.inputItems(
-						new OreDictStack(STEEL.plateCast(), 4),
+						new OreDictStack(STEEL.plate(), 16),
+						new OreDictStack(CU.plate(), 24),
 						new OreDictStack(PB.plateCast(), 4),
-						new OreDictStack(CU.plateCast(), 6),
-						new ComparableStack(ModItems.motor, 4),
 						new OreDictStack(STEEL.pipe(),4),
+						new ComparableStack(ModItems.motor, 4),
 						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BASIC)
 				)
 		);
