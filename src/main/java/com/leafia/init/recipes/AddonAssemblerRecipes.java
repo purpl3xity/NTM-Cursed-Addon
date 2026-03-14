@@ -67,6 +67,90 @@ public class AddonAssemblerRecipes {
 						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.BASIC)
 				)
 		);
+		INSTANCE.register(new GenericRecipe("ass.leafia.msr_control").setup(100,100)
+				.outputItems(new ItemStack(AddonBlocks.LFTR.control))
+				.inputItems(
+						new ComparableStack(ModItems.motor, 4),
+						new OreDictStack(STEEL.plate(),6),
+						new OreDictStack(PB.plateCast(),2)
+				)
+		);
+		INSTANCE.register(new GenericRecipe("ass.leafia.msr_extension").setup(100,100)
+				.outputItems(new ItemStack(AddonBlocks.LFTR.extension))
+				.inputItems(
+						new OreDictStack(B.ingot(), 2),
+						new OreDictStack(STEEL.plate(),4)
+				)
+		);
+		INSTANCE.register(new GenericRecipe("ass.leafia.msr_injector").setup(100,100)
+				.outputItems(new ItemStack(AddonBlocks.LFTR.plug))
+				.inputItems(
+						new OreDictStack(PB.plateCast(), 4),
+						new OreDictStack(STEEL.pipe(),4),
+						new OreDictStack(STEEL.shell()),
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED)
+				)
+		);
+		INSTANCE.register(new GenericRecipe("ass.leafia.msr_ejector").setup(100,100)
+				.outputItems(new ItemStack(AddonBlocks.LFTR.ejector))
+				.inputItems(
+						new OreDictStack(PB.plateCast(), 4),
+						new OreDictStack(STEEL.pipe(),4),
+						new OreDictStack(STEEL.shell()),
+						new ComparableStack(ModItems.motor, 4)
+				)
+		);
+		INSTANCE.register(new GenericRecipe("ass.leafia.msr_arbitrary").setup(100,100)
+				.outputItems(new ItemStack(AddonBlocks.LFTR.arbitrary))
+				.inputItems(
+						new OreDictStack(ZR.ingot(), 2),
+						new OreDictStack(CU.plateCast(), 2),
+						new OreDictStack(STEEL.pipe(),4),
+						new OreDictStack(STEEL.bolt(), 16)
+				)
+		);
+		INSTANCE.register(new GenericRecipe("ass.leafia.msr_reactor").setup(100,100)
+				.outputItems(new ItemStack(AddonBlocks.LFTR.element))
+				.inputItems(
+						new OreDictStack(ZR.plateWelded(), 2),
+						new OreDictStack(CU.plateCast(), 2),
+						new OreDictStack(STEEL.pipe(),4),
+						new OreDictStack(STEEL.bolt(), 16)
+				)
+		);
+		INSTANCE.register(new GenericRecipe("ass.leafia.msr_heatex").setup(200,100)
+				.outputItems(new ItemStack(AddonBlocks.coolant_heatex))
+				.inputItems(
+						new OreDictStack(STEEL.plateCast(), 4),
+						new OreDictStack(PB.plateCast(), 4),
+						new OreDictStack(CU.plateCast(), 6),
+						new ComparableStack(ModItems.motor, 4),
+						new OreDictStack(STEEL.pipe(),4),
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BASIC)
+				)
+		);
+		INSTANCE.register(new GenericRecipe("ass.leafia.ff_mixer").setup(200,100)
+				.outputItems(new ItemStack(AddonBlocks.mixingvat))
+				.inputItems(
+						new ComparableStack(ModItems.motor, 2),
+						new OreDictStack(STEEL.ingot(), 8),
+						new OreDictStack(STEEL.pipe(), 2),
+						new OreDictStack(PB.plate(), 4),
+						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.ADVANCED)
+				)
+		);
+		INSTANCE.register(new GenericRecipe("ass.leafia.saltfuel_separator").setup(200,100)
+				.outputItems(new ItemStack(AddonBlocks.salt_separator))
+				.inputItems(
+						new OreDictStack(STEEL.plateWelded(), 8),
+						new OreDictStack(STEEL.pipe(), 8),
+						new OreDictStack(STEEL.shell(), 2),
+						new OreDictStack(PB.plateCast(), 4),
+						new ComparableStack(ModItems.tank_steel, 6),
+						new ComparableStack(ModItems.motor, 8),
+						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.ADVANCED)
+				)
+		);
 		replaceOutput("ass.pwrcontrol",new ItemStack(PWR.control));
 		replaceOutput("ass.pwrfuel",new ItemStack(PWR.element));
 		replaceOutput("ass.pwrchannel",new ItemStack(PWR.channel));
