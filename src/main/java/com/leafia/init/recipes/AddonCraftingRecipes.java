@@ -65,6 +65,7 @@ public class AddonCraftingRecipes {
 		}
 		addShapelessAuto(new ItemStack(AddonBlocks.ff_pump),new ItemStack(AddonBlocks.ff_duct,1,2),new ItemStack(ModItems.motor));
 		addShapelessAuto(new ItemStack(AddonBlocks.ff_converter),new ItemStack(AddonBlocks.ff_duct,1,2),AL.plate());
+		addShapelessAuto(new ItemStack(AddonBlocks.ff_filter),new ItemStack(AddonBlocks.ff_duct, 1, 2),new ItemStack(Blocks.HOPPER),new ItemStack(ModItems.circuit, 1, EnumCircuitType.BASIC.ordinal()));
 
 		removeRecipesForItem(reg,ModItems.ams_lens);
 
