@@ -4,7 +4,7 @@ import com.hbm.tileentity.IGUIProvider;
 import com.leafia.contents.miscellanous.regex_filter.pneumatic.container.IRegexFilterGUI;
 import com.leafia.contents.miscellanous.regex_filter.pneumatic.container.RegexFilterContainer;
 import com.leafia.contents.miscellanous.regex_filter.pneumatic.container.RegexFilterGUI;
-import com.leafia.contents.miscellanous.regex_filter.pneumatic.container.RegexFilterGUIFilter;
+import com.leafia.dev.LeafiaUtil;
 import com.leafia.dev.container_utility.LeafiaPacket;
 import com.leafia.dev.container_utility.LeafiaPacketReceiver;
 import com.llib.group.LeafiaSet;
@@ -17,6 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
@@ -47,18 +49,19 @@ public class RegexFilterTE extends TileEntity implements LeafiaPacketReceiver, I
 	}
 	public enum FilterType { RESOURCE_ID, ORE_DICT }
 	public final LeafiaSet<RegexFilter> filters = new LeafiaSet<>();
-	public boolean isItemValid(ItemStack stack) {
+
+    public boolean isItemValid(ItemStack stack) {
 		for (RegexFilter filter : filters) {
 			switch(filter.type) {
 				case ORE_DICT -> {
 					for (int oreID : OreDictionary.getOreIDs(stack)) {
 						String dict = OreDictionary.getOreName(oreID);
-						if (dict.matches(filter.regex))
+						if (LeafiaUtil.matchesRegex(dict,filter.regex))
 							return true;
 					}
 				}
 				case RESOURCE_ID -> {
-					if (stack.getItem().getRegistryName() != null && stack.getItem().getRegistryName().toString().matches(filter.regex))
+					if (stack.getItem().getRegistryName() != null && LeafiaUtil.matchesRegex(stack.getItem().getRegistryName().toString(),filter.regex))
 						return true;
 				}
 			}
@@ -138,6 +141,11 @@ public class RegexFilterTE extends TileEntity implements LeafiaPacketReceiver, I
 	}
 	public final ItemStackHandler inventory = new ItemStackHandler(1) {
 		@Override
+		protected void onContentsChanged(int slot) {
+			super.onContentsChanged(slot);
+			RegexFilterTE.this.markDirty();
+		}
+		@Override
 		public boolean isItemValid(int slot,@NotNull ItemStack stack) {
 			return RegexFilterTE.this.isItemValid(stack);
 		}
@@ -183,11 +191,9 @@ public class RegexFilterTE extends TileEntity implements LeafiaPacketReceiver, I
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 		inventory.deserializeNBT(compound.getCompoundTag("inventory"));
-		if (!world.isRemote) {
-			if (compound.hasKey("filter")) {
-				NBTTagList list = compound.getTagList("filter",10);
-				loadFilterFromNBT(list);
-			}
+		if (compound.hasKey("filter")) {
+			NBTTagList list = compound.getTagList("filter",10);
+			loadFilterFromNBT(list);
 		}
 	}
 	@Override
@@ -195,6 +201,28 @@ public class RegexFilterTE extends TileEntity implements LeafiaPacketReceiver, I
 		compound.setTag("inventory",inventory.serializeNBT());
 		compound.setTag("filter",saveFilterToNBT());
 		return super.writeToNBT(compound);
+	}
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(super.getUpdateTag());
+	}
+	@Override
+	public void handleUpdateTag(NBTTagCompound tag) {
+		readFromNBT(tag);
+		if (world != null && world.isRemote)
+			updateGUIs();
+	}
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		return new SPacketUpdateTileEntity(pos,0,getUpdateTag());
+	}
+	@Override
+	public void onDataPacket(NetworkManager net,SPacketUpdateTileEntity pkt) {
+		handleUpdateTag(pkt.getNbtCompound());
+	}
+	@Override
+	protected void setWorldCreate(World worldIn) {
+		this.setWorld(worldIn);
 	}
 	EnumFacing getFacing() {
 		IBlockState state = world.getBlockState(pos);
@@ -256,6 +284,11 @@ public class RegexFilterTE extends TileEntity implements LeafiaPacketReceiver, I
 		if (key == 0) {
 			if (value instanceof NBTTagCompound tag && tag.hasKey("a")) {
 				loadFilterFromNBT(tag.getTagList("a",10));
+				markDirty();
+				if (world != null) {
+					IBlockState state = world.getBlockState(pos);
+					world.notifyBlockUpdate(pos,state,state,3);
+				}
 				generateSyncPacket().__sendToListeners();
 			}
 		}

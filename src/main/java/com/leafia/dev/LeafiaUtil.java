@@ -31,6 +31,8 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.function.Function;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public class LeafiaUtil {
 	public static int colorFromTextFormat(TextFormatting formatting) {
@@ -55,7 +57,25 @@ public class LeafiaUtil {
 		float force = (float)Math.pow(Math.pow(Math.max(amplitude-dist*0.5,0)/amplitude,2)*amplitude,0.9)/4f;
 		return new Vec3d(deltaPos.x/dist*force,deltaPos.y/dist*force,deltaPos.z/dist*force);
 	}
-	public static class LeafiaRayTraceConfig {
+
+    public static boolean isRegexValid(String regex) {
+        try {
+            Pattern.compile(regex);
+            return true;
+        } catch (PatternSyntaxException ignored) {
+            return false;
+        }
+    }
+
+    public static boolean matchesRegex(String value, String regex) {
+        try {
+            return value.matches(regex);
+        } catch (PatternSyntaxException ignored) {
+            return false;
+        }
+    }
+
+    public static class LeafiaRayTraceConfig {
 		public final World world;
 		public final Vec3d start;
 		public final Vec3d end;

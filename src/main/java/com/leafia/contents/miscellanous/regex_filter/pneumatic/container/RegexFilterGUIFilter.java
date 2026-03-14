@@ -4,14 +4,13 @@ import com.hbm.util.I18nUtil;
 import com.leafia.contents.miscellanous.regex_filter.pneumatic.RegexFilterTE;
 import com.leafia.contents.miscellanous.regex_filter.pneumatic.RegexFilterTE.FilterType;
 import com.leafia.contents.miscellanous.regex_filter.pneumatic.RegexFilterTE.RegexFilter;
+import com.leafia.dev.LeafiaUtil;
 import com.leafia.dev.gui.FiaUIRect;
 import com.leafia.dev.gui.GuiScreenLeafia;
-import com.leafia.dev.gui.LCEGuiInfoContainer;
 import com.leafia.transformer.LeafiaGls;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
@@ -124,6 +123,8 @@ public class RegexFilterGUIFilter extends GuiScreenLeafia implements IRegexFilte
 				if (isDelete())
 					entity.filters.remove(filter);
 				else {
+                    if (!LeafiaUtil.isRegexValid(field.getText()))
+						return;
 					RegexFilter f = filter;
 					if (f == null)
 						f = new RegexFilter();
@@ -154,6 +155,7 @@ public class RegexFilterGUIFilter extends GuiScreenLeafia implements IRegexFilte
 		super.drawDefaultBackground();
 		Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 		drawTexturedModalRect(guiLeft,guiTop,0,203,xSize,ySize);
+        boolean valid = LeafiaUtil.isRegexValid(field.getText());
 
 		if (modeRect.isMouseIn(mouseX,mouseY))
 			LeafiaGls.color(0.9f,0.9f,0.9f);
@@ -167,6 +169,8 @@ public class RegexFilterGUIFilter extends GuiScreenLeafia implements IRegexFilte
 
 		if (field.isFocused())
 			drawTexturedModalRect(guiLeft+8,guiTop+18,136,185,117,14);
+		field.setTextColor(valid ? 0x5BBC00 : 0xD84747);
+		field.setDisabledTextColour(valid ? 0x499500 : 0xA33A3A);
 		field.drawTextBox();
 	}
 
