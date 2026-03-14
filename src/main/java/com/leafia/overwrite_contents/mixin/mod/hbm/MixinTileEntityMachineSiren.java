@@ -77,10 +77,10 @@ public abstract class MixinTileEntityMachineSiren extends TileEntity implements 
 								type.getVolume(),1
 						).setCustomAttentuation((intended,dist)->{
 							double minDist = 6;
-							double maxDist = minDist+vol;
+							double maxDist = minDist+vol*1.5;
 							double maxVolume = Math.min(vol,1);
 							double linear = MathHelper.clamp((dist-minDist)/(maxDist-minDist),0,1);
-							return maxVolume*Math.pow(1-linear,1.2);
+							return maxVolume*Math.pow(1-linear,1);
 						});
 					}
 					leafia$playing = false;
