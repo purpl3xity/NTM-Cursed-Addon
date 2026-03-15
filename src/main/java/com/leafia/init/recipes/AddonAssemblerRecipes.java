@@ -67,6 +67,7 @@ public class AddonAssemblerRecipes {
 						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.BASIC)
 				)
 		);
+		/*
 		INSTANCE.register(new GenericRecipe("ass.leafia.msr_control").setup(100,100)
 				.outputItems(new ItemStack(AddonBlocks.LFTR.control))
 				.inputItems(
@@ -117,7 +118,7 @@ public class AddonAssemblerRecipes {
 						new OreDictStack(STEEL.pipe(),4),
 						new OreDictStack(STEEL.bolt(), 16)
 				)
-		);
+		);*/
 		INSTANCE.register(new GenericRecipe("ass.leafia.msr_heatex").setup(200,100)
 				.outputItems(new ItemStack(AddonBlocks.coolant_heatex))
 				.inputItems(
@@ -129,6 +130,7 @@ public class AddonAssemblerRecipes {
 						new ComparableStack(ModItems.circuit, 1, EnumCircuitType.BASIC)
 				)
 		);
+		/*
 		INSTANCE.register(new GenericRecipe("ass.leafia.ff_mixer").setup(200,100)
 				.outputItems(new ItemStack(AddonBlocks.mixingvat))
 				.inputItems(
@@ -150,7 +152,7 @@ public class AddonAssemblerRecipes {
 						new ComparableStack(ModItems.motor, 8),
 						new ComparableStack(ModItems.circuit, 4, EnumCircuitType.ADVANCED)
 				)
-		);
+		);*/
 		replaceOutput("ass.pwrcontrol",new ItemStack(PWR.control));
 		replaceOutput("ass.pwrfuel",new ItemStack(PWR.element));
 		replaceOutput("ass.pwrchannel",new ItemStack(PWR.channel));
