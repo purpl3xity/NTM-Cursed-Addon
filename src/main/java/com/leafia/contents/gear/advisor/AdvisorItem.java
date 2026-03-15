@@ -1,7 +1,6 @@
 package com.leafia.contents.gear.advisor;
 
-import com.hbm.blocks.gas.BlockGasAsbestos;
-import com.hbm.blocks.gas.BlockGasCoal;
+import com.hbm.blocks.gas.*;
 import com.hbm.main.ClientProxy;
 import com.hbm.main.MainRegistry;
 import com.hbm.tileentity.IGUIProvider;
@@ -272,6 +271,10 @@ public class AdvisorItem extends AddonItemBase implements IGUIProvider {
 					Warns.skinDmg2 = true;
 				else if (warningId == 2) // SKIN DAMAGE III
 					Warns.skinDmg3 = true;
+				else if (warningId == 3) // TOXIC
+					Warns.toxic = true;
+				else if (warningId == 4) // TOXIC (STRONG)
+					Warns.toxicStrong = true;
 			};
 		}
 	}
@@ -304,6 +307,9 @@ public class AdvisorItem extends AddonItemBase implements IGUIProvider {
 		static int pyroCooldown = 0;
 		static boolean skinDmg2 = false;
 		static boolean skinDmg3 = false;
+		static boolean toxic = false;
+		static boolean toxicStrong = false;
+		static int toxicCooldown = 0;
 		static int lava = 0;
 		public static void preTick() {
 			gas = decrement(gas);
@@ -311,6 +317,9 @@ public class AdvisorItem extends AddonItemBase implements IGUIProvider {
 			skinDmg2 = false;
 			skinDmg3 = false;
 			lava = decrement(lava);
+			toxic = false;
+			toxicStrong = false;
+			toxicCooldown = decrement(toxicCooldown);
 		}
 		static int decrement(int v) { return Math.max(v-1,0); }
 	}
@@ -338,6 +347,14 @@ public class AdvisorItem extends AddonItemBase implements IGUIProvider {
 				Warns.gas = gasCooldown;
 			}
 		}
+		if (block instanceof BlockGasRadon || block instanceof BlockGasRadonDense || block instanceof BlockGasRadonTomb || block instanceof BlockGasMeltdown) {
+			if (!ArmorRegistry.hasProtection(player,EntityEquipmentSlot.HEAD,HazardClass.PARTICLE_FINE)) {
+				if (Warns.gas <= 0)
+					warnPlayer(true,"radon");
+				showMessage(msg("radon"),len,7);
+				Warns.gas = gasCooldown;
+			}
+		}
 	}
 	@Override
 	public void onUpdate(ItemStack stack,World world,Entity entity,int itemSlot,boolean isSelected) {
@@ -362,6 +379,18 @@ public class AdvisorItem extends AddonItemBase implements IGUIProvider {
 			if (Warns.skinDmg3) {
 				warnPlayer(true,"skindmg3");
 				showMessage(msg("skindmg3"),len,3);
+			}
+			if (Warns.toxic && !Warns.toxicStrong) {
+				if (Warns.toxicCooldown <= 0)
+					warnPlayer(true,"toxic1");
+				Warns.toxicCooldown = gasCooldown;
+				showMessage(msg("toxic1"),len,5);
+			}
+			if (Warns.toxicStrong) {
+				if (Warns.toxicCooldown <= 0)
+					warnPlayer(true,"toxic2");
+				Warns.toxicCooldown = gasCooldown;
+				showMessage(msg("toxic2"),len,6);
 			}
 			{
 				// BEHIND CHECK

@@ -64,6 +64,7 @@
     "hbm.MixinHazardRegistry",
     "hbm.MixinHazardSystem",
     "hbm.MixinHazardTypeHot",
+    "hbm.MixinHazardTypeToxic",
     "hbm.MixinHbmWorldGen",
     "hbm.MixinIFluidReceiverMK2",
     "hbm.MixinIFluidStandardSenderMK2",
