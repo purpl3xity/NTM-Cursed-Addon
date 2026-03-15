@@ -1,4 +1,4 @@
-package com.leafia.contents.nonmachines.fftank;
+package com.leafia.contents.nonmachines.storage.fluid.fftank;
 
 import com.hbm.tileentity.TileEntityProxyCombo;
 import com.leafia.dev.blocks.blockbase.AddonBlockDummyable;

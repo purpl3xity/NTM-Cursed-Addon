@@ -1,4 +1,4 @@
-package com.leafia.contents.nonmachines.fftank;
+package com.leafia.contents.nonmachines.storage.fluid.fftank;
 
 import com.hbm.api.fluidmk2.FluidNode;
 import com.hbm.inventory.fluid.FluidType;

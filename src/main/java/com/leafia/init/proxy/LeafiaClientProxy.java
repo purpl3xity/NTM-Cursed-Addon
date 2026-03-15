@@ -76,8 +76,9 @@ import com.leafia.contents.network.fluid.gauges.FluidDuctGaugeTE;
 import com.leafia.contents.network.fluid.valves.FluidDuctValveTE;
 import com.leafia.contents.network.spk_cable.SPKCableRender;
 import com.leafia.contents.network.spk_cable.SPKCableTE;
-import com.leafia.contents.nonmachines.fftank.FFTankRender;
-import com.leafia.contents.nonmachines.fftank.FFTankTE;
+import com.leafia.contents.nonmachines.storage.fluid.fftank.FFTankRender;
+import com.leafia.contents.nonmachines.storage.fluid.fftank.FFTankTE;
+import com.leafia.contents.nonmachines.storage.items.CrateLabelRender;
 import com.leafia.eventbuses.LeafiaClientListener;
 import com.leafia.init.ItemRendererInit;
 import com.llib.exceptions.LeafiaDevFlaw;
@@ -180,6 +181,8 @@ public class LeafiaClientProxy extends LeafiaServerProxy {
 			ClientRegistry.bindTileEntitySpecialRenderer(HPBoilerTE.class,new HPBoilerRender());
 
 			ClientRegistry.bindTileEntitySpecialRenderer(DebugBHTE.class,new DebugBHRender());
+
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrateSteel.class,new CrateLabelRender());
 		}
 		AddonJars.initJars();
 	}

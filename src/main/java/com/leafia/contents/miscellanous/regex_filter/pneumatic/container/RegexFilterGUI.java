@@ -87,6 +87,7 @@ public class RegexFilterGUI extends LCEGuiInfoContainer implements IRegexFilterG
 		int maxScroll = Math.max(getMaxScroll(),0);
 		scroll = MathHelper.clamp(scroll,0,maxScroll);
 	}
+
 	@Override
 	public void handleMouseInput() throws IOException {
 		super.handleMouseInput();

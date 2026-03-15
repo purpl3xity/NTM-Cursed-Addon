@@ -13,6 +13,9 @@ public class GuiScreenLeafia extends GuiScreen {
 	public int ySize = 166;
 	public int guiLeft;
 	public int guiTop;
+	protected void drawTexturedModalByFiaRect(FiaUIRect rect,int tx,int ty) {
+		drawTexturedModalRect(rect.guiLeft+rect.x,rect.guiTop+rect.y,tx,ty,rect.w,rect.h);
+	}
 	protected void playClick(float pitch) {
 		mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK,pitch));
 	}

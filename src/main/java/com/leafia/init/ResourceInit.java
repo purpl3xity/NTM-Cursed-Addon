@@ -26,7 +26,7 @@ import com.leafia.contents.machines.reactors.pwr.debris.RenderPWRDebris;
 import com.leafia.contents.network.ff_duct.utility.FFDuctUtilityRender;
 import com.leafia.contents.network.fluid.FluidDuctEquipmentRender;
 import com.leafia.contents.network.spk_cable.SPKCableRender;
-import com.leafia.contents.nonmachines.fftank.FFTankRender;
+import com.leafia.contents.nonmachines.storage.fluid.fftank.FFTankRender;
 import com.leafia.unsorted.BlackholeRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -35,9 +35,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodType;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.leafia.AddonBase._initClass;
 import static com.leafia.AddonBase._initMemberClasses;

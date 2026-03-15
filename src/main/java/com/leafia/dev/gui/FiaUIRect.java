@@ -39,7 +39,7 @@ public class FiaUIRect {
 		return this;
 	}
 	public boolean isMouseIn(int mouseX,int mouseY) {
-		return guiLeft+x <= mouseX && mouseX <= guiLeft+x+w && guiTop+y <= mouseY && mouseY <= guiTop+y+h;
+		return guiLeft+x <= mouseX && mouseX < guiLeft+x+w && guiTop+y <= mouseY && mouseY < guiTop+y+h;
 	}
 	public int absX() {
 		return guiLeft+x;

@@ -1,4 +1,4 @@
-package com.leafia.contents.nonmachines.fftank;
+package com.leafia.contents.nonmachines.storage.fluid.fftank;
 
 import com.hbm.blocks.BlockDummyable;
 import com.hbm.render.loader.WaveFrontObjectVAO;

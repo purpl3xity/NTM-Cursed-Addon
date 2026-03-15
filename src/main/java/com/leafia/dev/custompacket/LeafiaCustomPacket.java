@@ -5,6 +5,7 @@ import com.hbm.handler.threading.PacketThreading;
 import com.hbm.packet.PacketDispatcher;
 import com.hbm.packet.threading.ThreadedPacket;
 import com.leafia.contents.gear.advisor.AdvisorItem;
+import com.leafia.contents.gear.advisor.AdvisorItem.AdvisorPacket;
 import com.leafia.contents.gear.utility.FuzzyIdentifierItem.FuzzyIdentifierPacket;
 import com.leafia.contents.gear.utility.FuzzyIdentifierItem.FuzzyIdentifierResponsePacket;
 import com.leafia.contents.machines.elevators.car.ElevatorEntity.*;
@@ -49,6 +50,7 @@ public class LeafiaCustomPacket extends RecordablePacket {
 		ELEVATOR_SYNC_REQUEST(new EvSyncRequestPacket()),
 		ELEVATOR_INVENTORY_SYNC(new EvInventorySyncPacket()),
 		METEOR_SYNC(new MeteorSyncPacket()),
+		ADVISOR(new AdvisorPacket()),
 		;
 		final LeafiaCustomPacketEncoder encoder;
 		CustomPacketType() { encoder = null; }

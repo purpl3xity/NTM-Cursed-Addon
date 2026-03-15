@@ -52,7 +52,7 @@ import com.leafia.contents.network.fluid.valves.FluidDuctValveTE;
 import com.leafia.contents.network.pipe_amat.AmatDuctTE;
 import com.leafia.contents.network.pipe_amat.charger.AmatDuctChargerTE;
 import com.leafia.contents.network.spk_cable.SPKCableTE;
-import com.leafia.contents.nonmachines.fftank.FFTankTE;
+import com.leafia.contents.nonmachines.storage.fluid.fftank.FFTankTE;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;

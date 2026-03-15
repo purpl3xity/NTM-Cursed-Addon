@@ -80,7 +80,7 @@ import com.leafia.contents.network.fluid.valves.FluidDuctValveRS;
 import com.leafia.contents.network.pipe_amat.AmatDuctStandard;
 import com.leafia.contents.network.pipe_amat.charger.AmatDuctChargerBlock;
 import com.leafia.contents.network.spk_cable.SPKCableBlock;
-import com.leafia.contents.nonmachines.fftank.FFTankBlock;
+import com.leafia.contents.nonmachines.storage.fluid.fftank.FFTankBlock;
 import com.leafia.dev.blocks.blockbase.AddonBlockBase;
 import com.leafia.dev.blocks.blockbase.AddonBlockPowder;
 import com.leafia.dev.blocks.legacy.LegacyBlockHazardMeta;

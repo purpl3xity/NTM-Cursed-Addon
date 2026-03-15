@@ -47,6 +47,10 @@ public abstract class GuiContainerLeafia extends GuiContainer {
 	public boolean doubleClick;
 	protected ItemStack shiftClickedSlot = ItemStack.EMPTY;
 
+	protected void drawTexturedModalByFiaRect(FiaUIRect rect,int tx,int ty) {
+		drawTexturedModalRect(rect.guiLeft+rect.x,rect.guiTop+rect.y,tx,ty,rect.w,rect.h);
+	}
+
 	public GuiContainerLeafia(Container inventorySlotsIn)
 	{
 		super(inventorySlotsIn);
