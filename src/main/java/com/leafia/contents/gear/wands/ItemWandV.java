@@ -8,17 +8,21 @@ import com.hbm.render.util.BakedModelUtil;
 import com.hbm.render.util.BakedModelUtil.DecalType;
 import com.hbm.util.I18nUtil;
 import com.leafia.contents.machines.reactors.pwr.PWRDiagnosis;
+import com.leafia.contents.worldgen.lib.SellacityRoadChunk;
 import com.leafia.dev.LeafiaDebug;
 import com.leafia.dev.LeafiaDebug.Tracker;
 import com.leafia.dev.items.itembase.AddonItemBaked;
 import com.llib.group.LeafiaMap;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockColored;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -27,6 +31,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
@@ -46,7 +51,8 @@ public class ItemWandV extends AddonItemBaked {
 	public enum DebuggerMode {
 		DEFAULT_TRACKER,
 		PWR_SET_CORE,
-		PWR_PRINT_CORE
+		PWR_PRINT_CORE,
+		PRINT_SNAKE_NOISE
 	}
 
 	@Override
@@ -55,6 +61,28 @@ public class ItemWandV extends AddonItemBaked {
 		ItemStack stack = player.getHeldItem(hand);
 		if (stack.getItem() instanceof ItemWandV wandV) {
 			switch(getMode(stack)) {
+				case PRINT_SNAKE_NOISE -> {
+					if (!world.isRemote) {
+						SellacityRoadChunk snakeNoise = new SellacityRoadChunk(world.rand);
+						MutableBlockPos mbp = new MutableBlockPos();
+						for (int i = 0; i < snakeNoise.data.length; i++) {
+							int x = snakeNoise.x(i);
+							int y = snakeNoise.y(i);
+							mbp.setPos(x,200,y);
+							int data = snakeNoise.data[i];
+							EnumDyeColor color = EnumDyeColor.BLACK;
+							if (data == 1)
+								color = EnumDyeColor.WHITE;
+							world.setBlockState(
+									mbp,
+									Blocks.WOOL.getDefaultState().withProperty(
+											BlockColored.COLOR,color
+									),2
+							);
+						}
+						player.sendMessage(new TextComponentString("Generated snake noise test at 0, 200, 0!"));
+					}
+				}
 				case PWR_PRINT_CORE -> {
 					if (!world.isRemote) {
 						TileEntity te = world.getTileEntity(pos);

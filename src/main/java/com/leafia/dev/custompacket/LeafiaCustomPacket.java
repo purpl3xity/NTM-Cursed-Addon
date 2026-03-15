@@ -8,6 +8,10 @@ import com.leafia.contents.gear.advisor.AdvisorItem;
 import com.leafia.contents.gear.advisor.AdvisorItem.AdvisorPacket;
 import com.leafia.contents.gear.utility.FuzzyIdentifierItem.FuzzyIdentifierPacket;
 import com.leafia.contents.gear.utility.FuzzyIdentifierItem.FuzzyIdentifierResponsePacket;
+import com.leafia.contents.gear.wands.ItemWandLoading.WandStructurePacket;
+import com.leafia.contents.gear.wands.ItemWandSaving.HighlightSavingWandProduct;
+import com.leafia.contents.gear.wands.ItemWandSaving.HighlightSavingWandRemove;
+import com.leafia.contents.gear.wands.ItemWandSaving.HighlightSavingWandSave;
 import com.leafia.contents.machines.elevators.car.ElevatorEntity.*;
 import com.leafia.dev.LeafiaDebug.Tracker.VisualizerPacket;
 import com.leafia.dev.optimization.bitbyte.LeafiaBuf;
@@ -36,6 +40,10 @@ public class LeafiaCustomPacket extends RecordablePacket {
 	public enum CustomPacketType { // add your packets here, that's literally all registering you have to do!
 		NONE,
 		VISUALIZER_TRACE(new VisualizerPacket()),
+		HIGHLIGHT_SAVING_SAVE(new HighlightSavingWandSave()),
+		HIGHLIGHT_SAVING_REMOVE(new HighlightSavingWandRemove()),
+		HIGHLIGHT_SAVING_PRODUCT(new HighlightSavingWandProduct()),
+		WAND_STRUCTURE(new WandStructurePacket()),
 		FUZZY_IDENTIFIER(new FuzzyIdentifierPacket()),
 		DFC_SHOCK(new DFCShockPacket()),
 		EXPLOSION_NT(new ExplosionNTSyncPacket()),

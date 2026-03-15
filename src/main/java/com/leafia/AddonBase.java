@@ -11,6 +11,10 @@ import com.leafia.contents.AddonItems;
 import com.leafia.contents.control.battery.AddonEnumBatteryPack;
 import com.leafia.contents.machines.controlpanel.AddonNodesRegister;
 import com.leafia.contents.potion.LeafiaPotion;
+import com.leafia.contents.worldgen.AddonBiomes;
+import com.leafia.contents.worldgen.AddonBiomesGenerator;
+import com.leafia.contents.worldgen.AddonWorldGen;
+import com.leafia.contents.worldgen.NTMStructBuffer.StructLoader;
 import com.leafia.database.AirDetonationMissiles;
 import com.leafia.database.ReactorTiers;
 import com.leafia.init.*;
@@ -36,6 +40,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.registries.ForgeRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -103,6 +108,11 @@ public class AddonBase {
 		AddonFF.init();
 		AddonBlocks.preInit();
 		AddonItems.preInit();
+		if (AddonConfig.enableSellacity) {
+			AddonBiomesGenerator gen = new AddonBiomesGenerator();
+			MinecraftForge.EVENT_BUS.register(gen);
+			MinecraftForge.TERRAIN_GEN_BUS.register(gen);
+		}
 		LeafiaPotion.init();
 		proxy.registerRenderInfo();
 
@@ -110,6 +120,7 @@ public class AddonBase {
 		EntityInit.preInit();
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
 
+		GameRegistry.registerWorldGenerator(new AddonWorldGen(),1);
 		proxy.preInit(event);
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance,new AddonGuiHandler());
 
@@ -144,6 +155,7 @@ public class AddonBase {
 		AddonNodesRegister.register();
 		AirDetonationMissiles.init();
 		ReactorTiers.register();
+		AddonBiomes.init();
 		if (TransformerCoreLeafia.loadFailed != null)
 			TransformerCoreLeafia.loadFailed.run();
 	}
@@ -154,6 +166,7 @@ public class AddonBase {
 		AddonFF.setFromRegistry();
 		ArmorInit.postInit();
 		LeafiaBlockReplacer.addReplacementMap();
+		StructLoader.init();
 		if (TransformerCoreLeafia.loadFailed != null)
 			TransformerCoreLeafia.loadFailed.run();
 	}

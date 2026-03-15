@@ -16,6 +16,7 @@ import com.leafia.contents.bomb.digamma.DigammititeBlock;
 import com.leafia.contents.building.broof.BroofBlock;
 import com.leafia.contents.building.light.LightBlock;
 import com.leafia.contents.building.light.LightEmitter;
+import com.leafia.contents.building.linedasphalt.LinedAsphaltBlock;
 import com.leafia.contents.building.mixed.BlockMixedConcrete;
 import com.leafia.contents.building.pinkdoor.BlockPinkDoor;
 import com.leafia.contents.building.sign.SignBlock;
@@ -189,6 +190,49 @@ public class AddonBlocks {
 				SignBlock sign = new SignBlock(s);
 				sign.setHardness(5);
 				signs.put(s,sign);
+			}
+		}
+	}
+
+	static boolean asphalt_dummy = LinedAsphalts.dummy;
+	public static class LinedAsphalts {
+		static boolean dummy = false;
+		public static final Map<String,Block> blocks = new HashMap<>();
+		public static final Map<String,String> replacementMap = new HashMap<>(); // i'm too stupid to make this an algorithm
+		static {
+			replacementMap.put("xzns","xns");
+			replacementMap.put("xzwe","zwe");
+			replacementMap.put("xnswe","xznswe");
+			replacementMap.put("znswe","xznswe");
+			replacementMap.put("xznse","xnse");
+			replacementMap.put("xzswe","zswe");
+			replacementMap.put("xznwe","znwe");
+			replacementMap.put("xznsw","xnsw");
+			blocks.put("",ModBlocks.asphalt);
+			for (int x = 0; x < 2; x++) {
+				for (int z = 0; z < 2; z++) {
+					for (int n = 0; n < 2; n++) {
+						for (int s = 0; s < 2; s++) {
+							for (int w = 0; w < 2; w++) {
+								for (int e = 0; e < 2; e++) {
+									StringBuilder builder = new StringBuilder();
+									if (x == 1) builder.append("x");
+									if (z == 1) builder.append("z");
+									if (n == 1) builder.append("n");
+									if (s == 1) builder.append("s");
+									if (w == 1) builder.append("w");
+									if (e == 1) builder.append("e");
+									String str = builder.toString();
+									if (str.isEmpty()) continue;
+									if (replacementMap.containsKey(str)) continue;
+									Block block = new LinedAsphaltBlock("asphalt_lined_"+str,str);
+									block.setCreativeTab(MainRegistry.blockTab).setHardness(15.0F).setResistance(CONCRETE.half());
+									blocks.put(str,block);
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}

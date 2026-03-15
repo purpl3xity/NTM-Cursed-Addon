@@ -27,6 +27,7 @@ import com.leafia.contents.machines.reactors.lftr.components.plug.MSRPlugBlock;
 import com.leafia.contents.machines.reactors.pwr.blocks.components.PWRComponentBlock;
 import com.leafia.contents.network.ff_duct.FFDuctStandard;
 import com.leafia.contents.network.pipe_amat.AmatDuctStandard;
+import com.leafia.contents.worldgen.AddonBiome;
 import com.leafia.dev.LeafiaUtil;
 import com.leafia.dev.container_utility.LeafiaPacket;
 import com.leafia.dev.container_utility.LeafiaPacketReceiver;
@@ -40,9 +41,12 @@ import com.leafia.transformer.LeafiaGls;
 import com.leafia.unsorted.IEntityCustomCollision;
 import com.llib.exceptions.LeafiaDevFlaw;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.block.model.IBakedModel;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -59,12 +63,11 @@ import net.minecraft.nbt.*;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.*;
 import net.minecraft.util.registry.IRegistry;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraftforge.client.event.*;
@@ -183,6 +186,80 @@ public class LeafiaClientListener {
 		}
 	}
 	public static class HandlerClient {
+
+		Map<AddonBiome,Float> getBiomeRatios(Entity entity) {
+			World world = entity.world;
+			int mops = 0;
+			Map<AddonBiome,Integer> mop = new HashMap<>();
+			BlockPos pos = entity.getPosition();
+			for (int ox = -3; ox <= 3; ox++) {
+				for (int oz = -3; oz <= 3; oz++) {
+					Biome biome = world.getBiome(pos.add(ox*5,0,oz*5));
+					if (biome instanceof AddonBiome)
+						mop.put((AddonBiome)biome,mop.getOrDefault((AddonBiome)biome,0)+1);
+					mops++;
+				}
+			}
+			Map<AddonBiome,Float> map = new HashMap<>();
+			for (Entry<AddonBiome,Integer> entry : mop.entrySet())
+				map.put(entry.getKey(),entry.getValue().floatValue()/mops);
+			return map;
+		}
+		@SubscribeEvent
+		public void overrideFog(EntityViewRenderEvent.RenderFogEvent event) {
+			float density = GlStateManager.fogState.density;
+			float start = GlStateManager.fogState.start;
+			float end = GlStateManager.fogState.end;
+			float ogDensity = density;
+			float ogStart = start;
+			float ogEnd = end;
+			for (Entry<AddonBiome,Float> entry : getBiomeRatios(event.getEntity()).entrySet()) {
+				{
+					float delta = entry.getKey().getFogDensity(ogDensity)-density;
+					density += delta*entry.getValue();
+				}
+				{
+					float delta = entry.getKey().getFogStart(ogStart)-start;
+					start += delta*entry.getValue();
+				}
+				{
+					float delta = entry.getKey().getFogEnd(ogEnd)-end;
+					end += delta*entry.getValue();
+				}
+			}
+			//density = (float)Math.max(Math.pow(IdkWhereThisShitBelongs.darkness*(IdkWhereThisShitBelongs.dustDisplayTicks/30f),0.1)*4,density);
+			/*if (density != ogDensity)
+				LeafiaGls.setFogDensity(start);
+			if (start != ogStart)
+				LeafiaGls.setFogStart(start);
+			if (end != ogEnd)
+				LeafiaGls.setFogEnd(end);*/ // annoying as hell
+		}
+		@SubscribeEvent
+		public void setFogColor(EntityViewRenderEvent.FogColors event) {
+			Entity entity = event.getEntity();
+			World world = entity.world;
+			Vec3d viewport = ActiveRenderInfo.projectViewFromEntity(entity,event.getRenderPartialTicks());
+			BlockPos viewportPos = new BlockPos(viewport);
+			IBlockState viewportState = world.getBlockState(viewportPos);
+			Vec3d inMaterialColor = viewportState.getBlock().getFogColor(world, viewportPos, viewportState, entity, new Vec3d(1,0,0), (float)event.getRenderPartialTicks());
+
+			Vec3d col = new Vec3d(event.getRed(),event.getGreen(),event.getBlue());
+			for (Entry<AddonBiome,Float> entry : getBiomeRatios(entity).entrySet()) {
+				int code = entry.getKey().getFogColor();
+				Vec3d add = new Vec3d(code>>>16&0xFF,code>>>8&0xFF,code&0xFF).scale(1/255d).subtract(col);
+				double alpha = (1-(code>>24&0xFF)/255d)*entry.getValue();
+				col = col.add(add.scale(alpha));
+			}
+
+			event.setRed((float) MathHelper.clamp(col.x/*+(1-IdkWhereThisShitBelongs.darkness)*IdkWhereThisShitBelongs.infernal*0.7/1.5*/,0,1));
+			event.setGreen((float)MathHelper.clamp(col.y/*+(1-IdkWhereThisShitBelongs.darkness)*IdkWhereThisShitBelongs.infernal*0.4/1.5*/,0,1));
+			event.setBlue((float)MathHelper.clamp(col.z/*+(1-IdkWhereThisShitBelongs.darkness)*IdkWhereThisShitBelongs.infernal*0.1/1.5*/,0,1));
+
+			//event.setRed((float)inMaterialColor.x);
+			//event.setGreen((float)inMaterialColor.y);
+			//event.setBlue((float)inMaterialColor.z);
+		}
 		/// For calls before addInformation, see com.leafia.dev.machine.MachineTooltip.addInfoASM()
 		@SubscribeEvent
 		public void drawTooltip(ItemTooltipEvent event) {

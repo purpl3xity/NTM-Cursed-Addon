@@ -19,6 +19,7 @@ public class AddonConfig {
 	public static int meteorDiverterMinAliveTime = 30*60;
 	public static int meteorDiverterProtectionRadius = 3;
 	public static boolean enableMeteorCraters = true;
+	public static boolean enableSellacity = LeafiaDebug.isDevEnv;
 	public static class ConfigOverrides {
 		public static boolean blockReplacement = true;
 		public static void applyGeneralConfig() {

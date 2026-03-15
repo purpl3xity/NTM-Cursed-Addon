@@ -7,12 +7,15 @@ import com.hbm.main.MainRegistry;
 import com.hbm.util.I18nUtil;
 import com.leafia.AddonBase;
 import com.leafia.contents.bomb.missile.customnuke.CustomNukeMissileItem;
+import com.leafia.contents.building.linedasphalt.LinedAsphaltBlock;
 import com.leafia.contents.building.pinkdoor.ItemPinkDoor;
 import com.leafia.contents.building.sign.SignBlock;
 import com.leafia.contents.control.fuel.nuclearfuel.LeafiaRodItem;
 import com.leafia.contents.gear.advisor.AdvisorItem;
 import com.leafia.contents.gear.ntmfbottle.ItemNTMFBottle;
 import com.leafia.contents.gear.utility.FuzzyIdentifierItem;
+import com.leafia.contents.gear.wands.ItemWandLoading;
+import com.leafia.contents.gear.wands.ItemWandSaving;
 import com.leafia.contents.gear.wands.ItemWandV;
 import com.leafia.contents.machines.elevators.car.chips.EvChipItem;
 import com.leafia.contents.machines.elevators.car.styles.EvStyleItem;
@@ -67,7 +70,10 @@ public class AddonItems {
     public static final Item ams_focus_omega = new LCEItemLens(1000000000L, 5.0F, 10.0F, 3.5F, "ams_focus_omega").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab);
 	public static final Item ams_focus_safe = new LCEItemLens(5000000000L, 8F, 4.5F, 0.1F, "ams_focus_safe").setMaxStackSize(1).setCreativeTab(MainRegistry.controlTab);
 
-    public static final Item wand_v = new ItemWandV("wand_v","wands/wand_v");
+    public static final Item wand_v = new ItemWandV("wand_v","wands/wand_v").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab);
+	public static final ItemWandSaving wand_leaf = (ItemWandSaving)new ItemWandSaving("wand_leaf","wands/wand_leaf").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab);
+	public static final Item wand_l = new ItemWandLoading("wand_l","wands/wand_loading").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab);
+
 	public static final Item fuzzy_identifier = new FuzzyIdentifierItem("fuzzy_identifier").setMaxStackSize(1).setCreativeTab(MainRegistry.consumableTab);
 
 	public static class LeafiaRods {
@@ -598,6 +604,7 @@ public class AddonItems {
 					}
 				};
 				ForgeRegistries.ITEMS.register(item.setRegistryName(block.getRegistryName()));
+			} else if (block instanceof LinedAsphaltBlock) {
 			} else if (block instanceof ICustomBlockItem) {
 				((ICustomBlockItem) block).registerItem();
 			} else {
