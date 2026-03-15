@@ -182,7 +182,11 @@ public class LeafiaClientProxy extends LeafiaServerProxy {
 
 			ClientRegistry.bindTileEntitySpecialRenderer(DebugBHTE.class,new DebugBHRender());
 
-			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrateSteel.class,new CrateLabelRender());
+			CrateLabelRender crateLabel = new CrateLabelRender();
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrateIron.class,crateLabel);
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrateSteel.class,crateLabel);
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrateTungsten.class,crateLabel);
+			ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrateDesh.class,crateLabel);
 		}
 		AddonJars.initJars();
 	}

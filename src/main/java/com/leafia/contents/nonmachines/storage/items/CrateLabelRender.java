@@ -90,13 +90,13 @@ public class CrateLabelRender extends TileEntitySpecialRenderer<TileEntityCrate>
 					ItemStack stack = new ItemStack(labelIcon,1,labelMeta);
 					LeafiaGls.pushMatrix();
 					IBakedModel model = Minecraft.getMinecraft().getRenderItem().getItemModelWithOverrides(stack,te.getWorld(),null);
-					model = ForgeHooksClient.handleCameraTransforms(model,TransformType.FIXED,false);
 					Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-					GL11.glTranslated(-x - 0.5F, y + 0.5F, -z - 0.5F);
+					GL11.glTranslated(x + 0.5F, y + 0.5F, z + 0.5F);
 					GL11.glRotatef(rot, 0F, 1F, 0F);
-					GL11.glTranslated(surfaceOffset, 0, 0);
+					GL11.glTranslated(-surfaceOffset, 0, 0);
 					GL11.glRotatef(90, 0, 1, 0);
 					GL11.glScaled(0.5,0.5,0.5);
+					model = ForgeHooksClient.handleCameraTransforms(model,TransformType.FIXED,false);
 					Minecraft.getMinecraft().getRenderItem().renderItem(stack,model);
 					LeafiaGls.popMatrix();
 				}
