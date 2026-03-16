@@ -2,6 +2,7 @@ package com.leafia;
 
 import com.custom_hbm.contents.torex.LCETorex;
 import com.hbm.entity.effect.EntityNukeTorex;
+import com.leafia.contents.AddonItems;
 import com.leafia.contents.gear.wands.ItemWandV;
 import com.leafia.dev.LeafiaDebug;
 import com.leafia.dev.LeafiaDebug.Tracker;
@@ -196,13 +197,13 @@ public class CommandLeaf extends CommandBase {
 							}
 						}
 						break;
-					/*case "wand":
+					case "wand":
 						args = shiftArgs(args,1);
 						if (args.length-1 <= 0) {
 							list.add("save");
 							list.add("remove");
 						}
-						break;*/
+						break;
 				}
 			} else {
 				list.add("eases");
@@ -234,7 +235,7 @@ public class CommandLeaf extends CommandBase {
 			Style header = new Style().setColor(TextFormatting.LIGHT_PURPLE);
 			darkRow = false;
 			switch(args[0]) {
-				/*case "wand": {
+				case "wand": {
 					args = shiftArgs(args,1);
 					if (args.length < 1)
 						throw new WrongUsageException("/hbmleaf wand save|remove", new Object[0]);
@@ -243,7 +244,7 @@ public class CommandLeaf extends CommandBase {
 							args = shiftArgs(args,1);
 							if (args.length < 1)
 								throw new WrongUsageException("/hbmleaf wand save <name>", new Object[0]);
-							int status = ModItems.wand_leaf.trySave(getCommandSenderAsPlayer(sender),args[0]);
+							int status = AddonItems.wand_leaf.trySave(getCommandSenderAsPlayer(sender),args[0]);
 							switch(status) {
 								case 0:
 									notifyCommandListener(sender, this, "Saving structure! This might lag af", new Object[0]);
@@ -259,7 +260,7 @@ public class CommandLeaf extends CommandBase {
 							}
 							break;
 						case "remove":
-							if (ModItems.wand_leaf.tryRemove(getCommandSenderAsPlayer(sender)))
+							if (AddonItems.wand_leaf.tryRemove(getCommandSenderAsPlayer(sender)))
 								notifyCommandListener(sender, this, "Successfully removed selection area", new Object[0]);
 							else
 								throw new CommandException("You must have Saving Wand in either mainhand or offhand to use this command",new Object[0]);
@@ -267,7 +268,7 @@ public class CommandLeaf extends CommandBase {
 						default:
 							throw new WrongUsageException("/hbmleaf wand save|remove", new Object[0]);
 					}
-				} break;*/
+				} break;
 				case "visualizer": {
 					args = shiftArgs(args,1);
 					if (args.length < 1)

@@ -1,6 +1,7 @@
 package com.leafia.contents.worldgen.biomes;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.entity.mob.EntityGlowingOne;
 import com.leafia.contents.AddonBlocks.LegacyBlocks;
 import com.leafia.contents.worldgen.AddonBiome;
 import com.leafia.contents.worldgen.AddonBiomes;
@@ -72,7 +73,7 @@ public class Ruins extends AddonBiome implements HasAcidicRain {
 			}
 		}
 
-		height = targetHeight+(int)((height-targetHeight)*(1-ratio*0.99));
+		height = targetHeight+(int)((height-targetHeight)*(1-ratio*0.9));
 
 		for (int y = 255; y >= 0; --y)
 		{
@@ -170,6 +171,7 @@ public class Ruins extends AddonBiome implements HasAcidicRain {
 		this.spawnableMonsterList.clear();
 
 		this.spawnableMonsterList.add(new SpawnListEntry(EntityZombie.class, 65, 3, 6));
+		this.spawnableMonsterList.add(new SpawnListEntry(EntityGlowingOne.class, 35, 3, 6));
 		this.spawnableMonsterList.add(new SpawnListEntry(EntityZombieVillager.class, 88, 8, 14));
 		this.spawnableMonsterList.add(new SpawnListEntry(EntitySkeleton.class, 100, 1, 2));
 		//this.spawnableMonsterList.add(new SpawnListEntry(EntityNuclearCreeper.class, 40, 1, 1)); hmmmm no not yet that makes him no longer so special

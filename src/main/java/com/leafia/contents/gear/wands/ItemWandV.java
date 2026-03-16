@@ -52,7 +52,7 @@ public class ItemWandV extends AddonItemBaked {
 		DEFAULT_TRACKER,
 		PWR_SET_CORE,
 		PWR_PRINT_CORE,
-		PRINT_SNAKE_NOISE
+		PRINT_ROAD_NOISE
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class ItemWandV extends AddonItemBaked {
 		ItemStack stack = player.getHeldItem(hand);
 		if (stack.getItem() instanceof ItemWandV wandV) {
 			switch(getMode(stack)) {
-				case PRINT_SNAKE_NOISE -> {
+				case PRINT_ROAD_NOISE -> {
 					if (!world.isRemote) {
 						SellacityRoadChunk snakeNoise = new SellacityRoadChunk(world.rand);
 						MutableBlockPos mbp = new MutableBlockPos();
@@ -80,7 +80,7 @@ public class ItemWandV extends AddonItemBaked {
 									),2
 							);
 						}
-						player.sendMessage(new TextComponentString("Generated snake noise test at 0, 200, 0!"));
+						player.sendMessage(new TextComponentString("Generated sellacity road noise test at 0, 200, 0!"));
 					}
 				}
 				case PWR_PRINT_CORE -> {

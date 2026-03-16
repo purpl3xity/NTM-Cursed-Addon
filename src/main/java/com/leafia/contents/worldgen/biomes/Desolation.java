@@ -33,7 +33,6 @@ public class Desolation extends AddonBiome {
 		this.spawnableMonsterList.clear();
 
 		this.spawnableMonsterList.add(new SpawnListEntry(EntityZombie.class, 65, 2, 4));
-		this.spawnableMonsterList.add(new SpawnListEntry(EntityZombieVillager.class, 88, 3, 7));
 		this.spawnableMonsterList.add(new SpawnListEntry(EntitySkeleton.class, 100, 4, 4));
 		//this.spawnableMonsterList.add(new SpawnListEntry(EntityNuclearCreeper.class, 40, 1, 1)); hmmmm no not yet that makes him no longer so special
 		this.spawnableCaveCreatureList.clear();

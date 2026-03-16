@@ -1,13 +1,18 @@
 package com.leafia.eventbuses;
 
 import com.hbm.blocks.ModBlocks;
+import com.hbm.config.RadiationConfig;
 import com.hbm.entity.logic.EntityNukeExplosionMK3;
 import com.hbm.entity.logic.EntityNukeExplosionMK3.ATEntry;
 import com.hbm.hazard.HazardEntry;
 import com.hbm.hazard.HazardSystem;
 import com.hbm.lib.HBMSoundHandler;
+import com.hbm.util.ContaminationUtil;
+import com.hbm.util.ContaminationUtil.ContaminationType;
+import com.hbm.util.ContaminationUtil.HazardType;
 import com.leafia.contents.machines.reactors.pwr.PWRDiagnosis;
 import com.leafia.contents.potion.LeafiaPotion;
+import com.leafia.contents.worldgen.biomes.effects.HasAcidicRain;
 import com.leafia.init.hazards.types.HazardTypeSharpEdges;
 import com.leafia.dev.optimization.LeafiaParticlePacket;
 import com.leafia.dev.optimization.LeafiaParticlePacket.Sweat;
@@ -26,12 +31,16 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IntIdentityHashBiMap;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.chunk.BlockStatePaletteHashMap;
@@ -43,6 +52,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.world.ChunkEvent;
@@ -136,6 +146,28 @@ public class LeafiaServerListener {
 		}
 	}
 	public static class Unsorted {
+		public void handleAcidRain(EntityLivingBase entity) {
+			int ix = (int)MathHelper.floor(entity.posX);
+			int iy = (int)MathHelper.floor(entity.posY);
+			int iz = (int)MathHelper.floor(entity.posZ);
+			if (entity.world.getBiome(new BlockPos(ix,iy,iz)) instanceof HasAcidicRain) {
+				if (entity.world.isRainingAt(new BlockPos(ix,iy,iz))) {
+					boolean active = false;
+					PotionEffect effect = entity.getActivePotionEffect(MobEffects.POISON);
+					if (effect != null) {
+						if (effect.getDuration() > 5)
+							active = true;
+					}
+					if (!active)
+						entity.addPotionEffect(new PotionEffect(MobEffects.POISON,35,1,false,false));
+					ContaminationUtil.contaminate(entity,HazardType.RADIATION,ContaminationType.CREATIVE,0.5);
+				}
+			}
+		}
+		@SubscribeEvent
+		public void onLivingUpdate(LivingUpdateEvent evt) {
+			handleAcidRain(evt.getEntityLiving());
+		}
 		@SubscribeEvent
 		public void onGetEntityCollision(GetCollisionBoxesEvent evt) {
 			if (evt.getEntity() == null) return;
