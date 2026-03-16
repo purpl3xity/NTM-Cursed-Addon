@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class SellacityRoadChunk {
-	public static final int size = 130;
+	public static final int size = 140;
 	public final int[] data = new int[size*size];
 	public int x(int index) { return index%size; }
 	public int y(int index) { return index/size; }
@@ -189,7 +189,7 @@ public class SellacityRoadChunk {
 		}
 	}
 
-	int v4$cellSize = 13;
+	int v4$cellSize = 7;
 	void algorithmV4(Random rand) { // Cell Algorithm 9/10 (I'll be using this one)
 		int cellCount = size/v4$cellSize;
 		int[] cells = new int[cellCount*cellCount];
